@@ -1,0 +1,28 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "sourceMap": true,
+        "declaration": false,
+        "downlevelIteration": true,
+        "experimentalDecorators": false,
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "target": "ES2022",
+        "typeRoots": ["node_modules/@types"],
+        "lib": [
+          "ES2022",
+          "DOM"
+        ],
+        "types": [
+          "@angular/localize"
+        ],
+    },
+    "files": [
+        "src/main.ts",
+        "src/polyfills.ts"
+    ],
+    "include": [
+        "src/**/*.d.ts"
+    ]
+}
