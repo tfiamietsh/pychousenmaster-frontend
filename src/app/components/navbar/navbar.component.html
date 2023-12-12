@@ -1,16 +1,23 @@
 <mat-toolbar>
-    <button class="r-padding" mat-button>Home</button>
+    <button class="r-padding" mat-button routerLink>Home</button>
     <button class="r-padding" mat-button>Problems</button>
     <button class="r-padding" mat-button>Challenges</button>
     <mat-form-field class="r-padding" appearance="outline" subscriptSizing="dynamic">
-        <input matInput type="search" autocomplete="none"/>
+        <input matInput type="search" autocomplete="none" placeholder="Search or jump to..."/>
         <button mat-icon-button matSuffix>
             <mat-icon>search</mat-icon>
         </button>
     </mat-form-field>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon>
-    </button>
+    <div *ngIf="true;else user">
+        <button mat-flat-button color="primary" routerLink="/sign-up">
+            <span>Sign up</span>
+        </button>
+    </div>
+    <ng-template #user>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>account_circle</mat-icon>
+        </button>    
+    </ng-template>
     <mat-menu #menu>
         <button mat-menu-item>
             <mat-icon>portrait</mat-icon>

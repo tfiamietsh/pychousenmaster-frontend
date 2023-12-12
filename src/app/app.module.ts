@@ -3,14 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 @NgModule({
     imports: [
@@ -19,15 +22,19 @@ import { HomeComponent } from './components/home/home.component';
         AppRoutingModule,
         MatToolbarModule,
         MatButtonModule,
+        ReactiveFormsModule,
+        FormsModule,
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
-        MatMenuModule
+        MatMenuModule,
+        MatCardModule
     ],
     declarations: [
         AppComponent,
         NavbarComponent,
-        HomeComponent
+        HomeComponent,
+        SignUpComponent
     ],
     bootstrap: [ AppComponent ]
 })
