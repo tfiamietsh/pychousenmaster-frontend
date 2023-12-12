@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RegistrationService } from '../../services/registration.service';
+import { first } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'sign-up',
@@ -10,7 +13,8 @@ export class SignUpComponent {
     registrationForm!: FormGroup;
     error: string = '';
     
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder, private regService: RegistrationService,
+        private route: ActivatedRoute, private router: Router) { }
 
     ngOnInit() {
         this.registrationForm = this.formBuilder.group({
@@ -32,6 +36,15 @@ export class SignUpComponent {
     }
 
     submit() {
-        //  TODO
+        this.regService.register(this.username.value, this.password.value)
+            .pipe(first()).subscribe({
+                next: () => {
+                    this.router.navigateByUrl('/sign-in');
+                },
+                error: (error) => {
+                    this.error = String(error).replace('Error: ', '');
+                    this.username.setValue('');
+                }
+            });
     }
 }
