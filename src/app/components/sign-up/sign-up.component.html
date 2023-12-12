@@ -13,7 +13,10 @@
             <br>
             <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
-                <input matInput autocomplete="off" [formControl]="password" (input)="check(sbmt)">
+                <input matInput autocomplete="off" [formControl]="password" [type]="passwordType" (input)="check(sbmt)">
+                <button mat-icon-button matSuffix (mouseover)="changePasswordState()" (mouseleave)="changePasswordState()">
+                    <mat-icon>{{passwordIcon}}</mat-icon>
+                </button>
                 <mat-error>Password is <b>required</b></mat-error>
             </mat-form-field>
             <button mat-flat-button color="primary" #sbmt (click)="submit()" disabled>

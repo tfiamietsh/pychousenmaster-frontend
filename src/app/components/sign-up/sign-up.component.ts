@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SignUpComponent {
     registrationForm!: FormGroup;
     error: string = '';
+    isPasswordHidden: boolean = true;
     
     constructor(private formBuilder: FormBuilder, private regService: RegistrationService,
         private route: ActivatedRoute, private router: Router) { }
@@ -29,6 +30,18 @@ export class SignUpComponent {
 
     get password() {
         return this.registrationForm.get('password');
+    }
+
+    get passwordType() {
+        return this.isPasswordHidden ? 'password' : 'text';
+    }
+
+    get passwordIcon() {
+        return this.isPasswordHidden ? 'visibility_off' : 'visibility';
+    }
+
+    changePasswordState() {
+        this.isPasswordHidden = !this.isPasswordHidden;
     }
 
     check(element) {
