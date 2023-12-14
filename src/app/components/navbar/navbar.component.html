@@ -8,7 +8,7 @@
             <mat-icon>search</mat-icon>
         </button>
     </mat-form-field>
-    <div *ngIf="true;else user">
+    <div *ngIf="guest;else user">
         <button mat-stroked-button class="r-padding" color="primary" routerLink="/sign-in">
             <span>Sign in</span>
         </button>
@@ -30,7 +30,7 @@
             <mat-icon>folder_special</mat-icon>
             <span>Challenges</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="logout()">
             <mat-icon>exit_to_app</mat-icon>
             <span>Sign out</span>
         </button>

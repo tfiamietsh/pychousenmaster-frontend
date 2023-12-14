@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'sign-in',
@@ -11,7 +14,8 @@ export class SignInComponent {
     error: string = '';
     isPasswordHidden: boolean = true;
     
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder, private authService: AuthenticationService,
+        private route: ActivatedRoute, private router: Router) { }
 
     ngOnInit() {
         this.authenticationForm = this.formBuilder.group({
@@ -41,6 +45,16 @@ export class SignInComponent {
     }
 
     submit() {
-        //  TODO
+        this.authService.login(this.username.value, this.password.value)
+            .pipe(first()).subscribe({
+                next: () => {
+                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+                    this.router.navigate([returnUrl]);
+                },
+                error: (error) => {
+                    this.error = String(error).replace('Error: ', '');
+                    this.password.setValue('');
+                }
+            });
     }
 }
