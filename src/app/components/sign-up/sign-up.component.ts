@@ -13,6 +13,7 @@ export class SignUpComponent {
     registrationForm!: FormGroup;
     error: string = '';
     isPasswordHidden: boolean = true;
+    navbarElem: any;
     
     constructor(private formBuilder: FormBuilder, private regService: RegistrationService,
         private router: Router) { }
@@ -22,6 +23,13 @@ export class SignUpComponent {
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
+        this.navbarElem = document.getElementsByTagName('app-navbar')[0];
+        this.navbarElem.style = 'display: none';
+        console.log(this.navbarElem.style);
+    }
+
+    ngOnDestroy() {
+        this.navbarElem.style = '';
     }
 
     get username() {

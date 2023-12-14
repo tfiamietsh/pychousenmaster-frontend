@@ -13,6 +13,7 @@ export class SignInComponent {
     authenticationForm!: FormGroup;
     error: string = '';
     isPasswordHidden: boolean = true;
+    navbarElem: any;
     
     constructor(private formBuilder: FormBuilder, private authService: AuthenticationService,
         private route: ActivatedRoute, private router: Router) { }
@@ -22,6 +23,12 @@ export class SignInComponent {
             username: [''],
             password: ['']
         });
+        this.navbarElem = document.getElementsByTagName('app-navbar')[0];
+        this.navbarElem.style = 'display: none';
+    }
+
+    ngOnDestroy() {
+        this.navbarElem.style = '';
     }
 
     get username() {
