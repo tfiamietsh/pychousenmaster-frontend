@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { HomeComponent } from './components/home/home.component'
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
+import { guestOnly } from './helpers/authentication.guard';
 
 const routes: Routes = [{
     path: '',
@@ -10,9 +11,11 @@ const routes: Routes = [{
     title: ''
 }, {
     path: 'sign-up',
+    canActivate: [guestOnly],
     component: SignUpComponent
 }, {
     path: 'sign-in',
+    canActivate: [guestOnly],
     component: SignInComponent
 }, {
     path: '**',
