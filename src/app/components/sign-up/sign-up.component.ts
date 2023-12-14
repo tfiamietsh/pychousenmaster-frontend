@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegistrationService } from '../../services/registration.service';
 import { first } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sign-up',
@@ -15,7 +15,7 @@ export class SignUpComponent {
     isPasswordHidden: boolean = true;
     
     constructor(private formBuilder: FormBuilder, private regService: RegistrationService,
-        private route: ActivatedRoute, private router: Router) { }
+        private router: Router) { }
 
     ngOnInit() {
         this.registrationForm = this.formBuilder.group({
