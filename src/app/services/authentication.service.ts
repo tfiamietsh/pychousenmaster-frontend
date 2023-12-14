@@ -32,7 +32,7 @@ export class AuthenticationService {
     private startRefreshTokenTimer() {
         const expires = new Date(Date.now());
 
-        expires.setMinutes(expires.getMinutes() + 15);
+        expires.setMinutes(expires.getMinutes() + 10);
         this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(),
             expires.getTime() - Date.now());
     }
