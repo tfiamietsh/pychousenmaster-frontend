@@ -1,0 +1,42 @@
+<mat-card class="card">
+    <mat-card-header>
+        <mat-card-title>Sign in to Py挑戦マスター</mat-card-title>
+    </mat-card-header>
+    <br>
+    <mat-card-content>
+        <form [formGroup]="authenticationForm">
+            <mat-form-field appearance="outline">
+                <mat-label>Username</mat-label>
+                <input matInput [formControl]="username">
+                <mat-error>Username is <b>required</b></mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput autocomplete="none" [formControl]="password" [type]="passwordType">
+                <button mat-icon-button matSuffix (mouseover)="changePasswordState()" (mouseleave)="changePasswordState()">
+                    <mat-icon>{{passwordIcon}}</mat-icon>
+                </button>
+                <mat-error>Password is <b>required</b></mat-error>
+            </mat-form-field>
+            <button mat-flat-button color="primary" #sbmt (click)="submit()">
+                <span>Sign in</span>
+            </button>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <table>
+            <tr *ngIf="error">
+                <td>
+                    <mat-error>{{error}}</mat-error>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>New to Py挑戦マスター?&nbsp;</span>
+                    <a routerLink="/sign-in">Create an account</a>
+                </td>
+            </tr>
+          </table>
+    </mat-card-actions>
+</mat-card>    

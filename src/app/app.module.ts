@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
         AppComponent,
         NavbarComponent,
         HomeComponent,
-        SignUpComponent
+        SignUpComponent,
+        SignInComponent
     ],
     bootstrap: [ AppComponent ]
 })
