@@ -1,0 +1,172 @@
+<div class="splitter-container">
+    <as-split direction="horizontal" restrictMove="true" gutterSize="6">
+        <as-split-area [minSize]="33" [maxSize]="67">
+            <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" fitInkBarToContent
+                    (selectedTabChange)=problemTabChange($event)>
+                <mat-tab label="Description">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title>{{title}}</mat-card-title>
+                            <mat-card-subtitle class="prob-mcs">
+                                <span class="fl" [attr.style]="difficultyStyle">
+                                    <b>{{difficulty}}&nbsp;&nbsp;</b>
+                                </span>
+                                <div class="fl" *ngIf="state">
+                                    <mat-icon class="phi" [matTooltip]="state" [attr.style]="stateStyle">
+                                        {{stateIcon}}
+                                    </mat-icon>&nbsp;&nbsp;
+                                </div>
+                                <div class="fl">
+                                    <mat-icon class="phi" (click)="like()">thumb_up</mat-icon>
+                                    <span>{{liked}}</span>&nbsp;&nbsp;
+                                    <mat-icon class="phi">thumb_down</mat-icon>
+                                    <span (click)="dislike()">{{disliked}}</span>&nbsp;&nbsp;
+                                    <mat-icon *ngIf="user" class="phi" matTooltip="Add to Challenge"
+                                            (click)="openDialog()">
+                                        library_add
+                                    </mat-icon>
+                                </div>
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p class="description">{{description}}</p>
+                        </mat-card-content>
+                        <mat-card-actions class="asar">
+                            <span>Accepted</span>&nbsp;&nbsp;
+                            <span>{{totalAccepted}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>Submissions</span>&nbsp;&nbsp;
+                            <span>{{totalSubmissions}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>Acceptance Rate</span>&nbsp;&nbsp;
+                            <span>{{ar}}</span>
+                        </mat-card-actions>
+                        <mat-card-footer>
+                            <mat-divider/>
+                            <br>
+                            <mat-chip-listbox>
+                                <mat-chip *ngFor="let tag of tags">{{tag}}</mat-chip>
+                            </mat-chip-listbox>
+                        </mat-card-footer>
+                    </mat-card>
+                </mat-tab>
+                <mat-tab label="Discussion"/>
+                <mat-tab *ngIf="user" label="Submissions">
+                    <table mat-table [dataSource]="submissions" [needsPositionStickyOnElement]="true" class="gray">
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef>Status</th>
+                            <td mat-cell *matCellDef="let element" [attr.style]="statusColor(element.status)">
+                                {{element.status}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="runtime">
+                            <th mat-header-cell *matHeaderCellDef>Runtime</th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-icon class="tb-icon">access_time</mat-icon>
+                                {{element.runtime}} ms
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="memory">
+                            <th mat-header-cell *matHeaderCellDef>Memory</th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-icon class="tb-icon">memory</mat-icon>
+                                {{element.memory}} MB
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="stColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: stColumns;" (click)="select(row)"></tr>
+                    </table>
+                </mat-tab>
+            </mat-tab-group>
+        </as-split-area>
+        <as-split-area [minSize]="33" [maxSize]="67">
+            <as-split direction="vertical" restrictMove="true" gutterSize="6">
+                <as-split-area [minSize]="10" [size]="67" [maxSize]="90" class="hid-scroll">
+                    <mat-card class="max-height">
+                        <table style="color: rgba(0, 0, 0, .54); margin: 5px 15px">
+                            <tr>
+                                <td style="text-align: start">
+                                    Code:
+                                </td>
+                                <td style="text-align: end">
+                                    <mat-icon class="cei center" matTooltip="Reset to default code definition"
+                                            (click)="resetCode()">
+                                        settings_backup_restore
+                                    </mat-icon>
+                                    <mat-icon class="cei cei-inv center" matTooltip="Retrieve last submitted code"
+                                            (click)="retrieveCode()">
+                                        forward
+                                    </mat-icon>
+                                </td>
+                            </tr>
+                        </table>
+                        <mat-card-content class="max-height editor-mcc">
+                            <div contenteditable="true" class="editor-div"></div>
+                        </mat-card-content>
+                    </mat-card>
+                </as-split-area>
+                <as-split-area [minSize]="10" [size]="67" [maxSize]="90" class="hid-scroll">
+                    <div class="btns-margin">
+                        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" fitInkBarToContent dynamicHeight>
+                            <mat-tab label="Testcase">
+                                <div class="margin-div">
+                                    <button mat-button *ngFor="let _ of testcases; let i = index" [color]="tcCaseColor(i)"
+                                            class="case-btn" (click)="setTestcaseIdx(i)">
+                                        Case {{i + 1}}
+                                    </button>
+                                    <mat-form-field *ngFor="let pair of testcase.input | keyvalue"
+                                            appearance="outline" floatLabel="always" class="tc-input">
+                                        <mat-label>{{pair.key}} =</mat-label>
+                                        <input matInput [value]="pair.value">
+                                    </mat-form-field>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Result">
+                                <mat-card>
+                                    <mat-card-header [attr.style]="statusColor(status)">
+                                        <mat-card-title class="res-mct status">{{status}}</mat-card-title>
+                                        <mat-card-subtitle *ngIf="results.length">
+                                            <button mat-button *ngFor="let _ of results; let i = index" [color]="rCaseColor(i)"
+                                                    class="case-btn" (click)="setResultIdx(i)">
+                                                <mat-icon [attr.style]="caseDotStyle(i)">fiber_manual_record</mat-icon>
+                                                Case {{i + 1}}
+                                            </button>
+                                            <br>Input:
+                                        </mat-card-subtitle>
+                                    </mat-card-header>
+                                    <div *ngIf="results.length">
+                                        <mat-card-content>
+                                            <mat-form-field *ngFor="let pair of result.input | keyvalue; let i = index"
+                                                    appearance="outline" floatLabel="always" class="tc-input">
+                                                <mat-label>{{pair.key}} =</mat-label>
+                                                <input matInput [value]="pair.value" readonly>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                        <mat-card-header class="res-mch">
+                                            <mat-card-subtitle>Output:</mat-card-subtitle>
+                                        </mat-card-header>
+                                        <mat-card-content>
+                                            <mat-form-field appearance="outline" floatLabel="always" class="tc-input">
+                                                <input matInput [value]="result.output" readonly>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                        <mat-card-header class="res-mch">
+                                            <mat-card-subtitle>Expected:</mat-card-subtitle>
+                                        </mat-card-header>
+                                        <mat-card-content>
+                                            <mat-form-field appearance="outline" floatLabel="always" class="tc-input">
+                                                <input matInput [value]="expected" readonly>
+                                            </mat-form-field>
+                                        </mat-card-content>
+                                    </div>
+                                </mat-card>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                    <div class="tc-btn-group">
+                        <button mat-flat-button class="tc-run" (click)="run()">Run</button>
+                        <button mat-flat-button color="accent" (click)="submit()">Submit</button>
+                    </div>
+                </as-split-area>
+            </as-split>
+        </as-split-area>
+    </as-split>
+</div>
