@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Submission } from 'src/app/helpers/submission';
 
 @Component({
   selector: 'problem',
@@ -28,7 +29,7 @@ export class ProblemComponent {
     resultIdx: number;
     status: string;
     stColumns: string[] = ['status', 'runtime', 'memory'];
-    submissions: any;
+    submissions: Submission[];
     editorDiv: HTMLDivElement | any;
 
     constructor(private authService: AuthenticationService, private router: Router) { }
@@ -140,7 +141,7 @@ export class ProblemComponent {
         //  TODO
     }
 
-    select(submission: any) {
+    select(submission: Submission) {
         this.editorDiv.innerText = submission.code;
     }
 }
