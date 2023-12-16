@@ -3,6 +3,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Submission } from 'src/app/helpers/submission';
+import { Testcase } from 'src/app/helpers/testcase';
 
 @Component({
   selector: 'problem',
@@ -23,7 +24,7 @@ export class ProblemComponent {
     totalAccepted: number;
     totalSubmissions: number;
     tags: string[];
-    testcases: any;
+    testcases: Testcase[];
     testcaseIdx: number;
     results: string[];
     resultIdx: number;
