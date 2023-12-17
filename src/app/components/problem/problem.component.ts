@@ -21,6 +21,7 @@ export class ProblemComponent {
     testcaseIdx: number;
     results: string[];
     resultIdx: number;
+    status: string;
     stColumns: string[] = ['status', 'runtime', 'memory'];
     editorDiv: HTMLDivElement | any;
 

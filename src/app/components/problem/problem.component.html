@@ -123,8 +123,8 @@
                             </mat-tab>
                             <mat-tab label="Result">
                                 <mat-card>
-                                    <mat-card-header [attr.style]="statusColor(problem.status)">
-                                        <mat-card-title class="res-mct status">{{problem.status}}</mat-card-title>
+                                    <mat-card-header [attr.style]="statusColor(status)">
+                                        <mat-card-title class="res-mct status">{{status}}</mat-card-title>
                                         <mat-card-subtitle *ngIf="results.length">
                                             <button mat-button *ngFor="let _ of results; let i = index"
                                                     [color]="rCaseColor(i)" class="case-btn" (click)="setResultIdx(i)">
