@@ -19,7 +19,7 @@ const routes: Routes = [{
     canActivate: [guestOnly],
     component: SignInComponent
 }, {
-    path: 'problem',
+    path: 'problems/:title',
     component: ProblemComponent
 }, {
     path: '**',

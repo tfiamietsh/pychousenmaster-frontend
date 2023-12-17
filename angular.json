@@ -17,7 +17,8 @@
 						"aot": true,
 						"styles": [
 							"@angular/material/prebuilt-themes/indigo-pink.css"
-						]
+						],
+                        "baseHref": "/"
 					}
 				},
 				"serve": {
