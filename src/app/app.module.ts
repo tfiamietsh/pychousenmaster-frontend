@@ -28,6 +28,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ProblemComponent } from './components/problem/problem.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 
 @NgModule({
     imports: [
@@ -51,7 +52,8 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
         MatChipsModule,
         MatDividerModule,
         AngularSplitModule,
-        FlexModule
+        FlexModule,
+        HighlightModule
     ],
     declarations: [
         AppComponent,
@@ -63,7 +65,13 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HIGHLIGHT_OPTIONS, useValue: {
+            coreLibraryLoader: () => import('highlight.js/lib/core'),
+            lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
+            languages: { python: () => import('highlight.js/lib/languages/python') },
+            themePath: 'assets/styles/github.min.css'
+        }}
     ],
     bootstrap: [ AppComponent ]
 })

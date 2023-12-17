@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Submission } from 'src/app/helpers/submission';
 import { Testcase } from 'src/app/helpers/testcase';
+import hljs from 'highlight.js/lib/core';
+import python from 'highlight.js/lib/languages/python';
 
 @Component({
   selector: 'problem',
@@ -37,6 +39,7 @@ export class ProblemComponent {
 
     ngOnInit() {
         this.editorDiv = document.getElementsByClassName('editor-div')[0];
+        hljs.registerLanguage('python', python);
     }
 
     get difficulty() {
@@ -144,5 +147,60 @@ export class ProblemComponent {
 
     select(submission: Submission) {
         this.editorDiv.innerText = submission.code;
+        this.highlight();
+    }
+
+    private static getTextNodeAtPosition(root: Node, index: number){
+        const NODE_TYPE = NodeFilter.SHOW_TEXT;
+        var treeWalker = document.createTreeWalker(root, NODE_TYPE, (elem) => {
+            if (index > elem.textContent.length) {
+                index -= elem.textContent.length;
+                return NodeFilter.FILTER_REJECT
+            }
+            return NodeFilter.FILTER_ACCEPT;
+        });
+        var c = treeWalker.nextNode();
+        return {
+            node: c ? c : root,
+            position: index
+        };
+    }
+
+    private saveCaretPosition(elem: Node) {
+        let selection = window.getSelection();
+        let rng = selection.getRangeAt(0);
+        rng.setStart(elem, 0);
+        let len = rng.toString().length;
+        return () => {
+            var pos = ProblemComponent.getTextNodeAtPosition(elem, len);
+            selection.removeAllRanges();
+            var range = new Range();
+            range.setStart(pos.node, pos.position);
+            selection.addRange(range);
+        };
+    }
+    
+    kbEvent(event: KeyboardEvent) {
+        let keyCodeMap = { 'Enter': '\u000A', 'Tab': '\u0009' };
+        if (event.key in keyCodeMap) {
+            event.preventDefault();
+            let doc = this.editorDiv.ownerDocument.defaultView;
+            let sel = doc.getSelection();
+            let range = sel.getRangeAt(0);
+            let tabNode = document.createTextNode(keyCodeMap[event.key]);
+            range.insertNode(tabNode);
+            range.setStartAfter(tabNode);
+            range.setEndAfter(tabNode); 
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+        this.highlight();
+    }
+
+    highlight() {
+        let restore = this.saveCaretPosition(this.editorDiv);
+        let innerHTML = hljs.highlight(this.editorDiv.innerText, { language: 'python' }).value;
+        this.editorDiv.innerHTML = `<pre><code [lineNumbers]="true">${innerHTML}</code></pre>`;
+        restore();
     }
 }

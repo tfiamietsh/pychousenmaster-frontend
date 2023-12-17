@@ -99,7 +99,8 @@
                             </tr>
                         </table>
                         <mat-card-content class="max-height editor-mcc">
-                            <div contenteditable="true" class="editor-div"></div>
+                            <div contenteditable="true" class="editor-div" (input)="highlight()"
+                                spellcheck="false" (keydown)="kbEvent($event)"></div>
                         </mat-card-content>
                     </mat-card>
                 </as-split-area>
