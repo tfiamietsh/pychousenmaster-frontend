@@ -12,7 +12,6 @@ export interface Problem {
     totalSubmissions: number;
     tags: string[];
     testcases: Testcase[];
-    results: string[];
     status: string;
     submissions: Submission[];
 }

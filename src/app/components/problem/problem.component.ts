@@ -19,6 +19,7 @@ export class ProblemComponent {
     states: string[] = ['Solved', 'Attempted', ''];
     stateIcons: string[] = ['panorama_fish_eye', 'change_history'];
     testcaseIdx: number;
+    results: string[];
     resultIdx: number;
     stColumns: string[] = ['status', 'runtime', 'memory'];
     editorDiv: HTMLDivElement | any;
@@ -96,7 +97,7 @@ export class ProblemComponent {
     }
 
     get expected() {
-        return this.problem.results[this.resultIdx];
+        return this.results[this.resultIdx];
     }
 
     rCaseColor(i: number) {
@@ -109,7 +110,7 @@ export class ProblemComponent {
     }
 
     caseDotStyle(i: number) {
-        const idx = this.problem.testcases[i].output == this.problem.results[i] ? 0 : 2;
+        const idx = this.problem.testcases[i].output == this.results[i] ? 0 : 2;
         return `font-size: 8px; color: ${this.colors[idx]}`;
     }
 

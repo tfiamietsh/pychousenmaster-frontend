@@ -125,8 +125,8 @@
                                 <mat-card>
                                     <mat-card-header [attr.style]="statusColor(problem.status)">
                                         <mat-card-title class="res-mct status">{{problem.status}}</mat-card-title>
-                                        <mat-card-subtitle *ngIf="problem.results.length">
-                                            <button mat-button *ngFor="let _ of problem.results; let i = index"
+                                        <mat-card-subtitle *ngIf="results.length">
+                                            <button mat-button *ngFor="let _ of results; let i = index"
                                                     [color]="rCaseColor(i)" class="case-btn" (click)="setResultIdx(i)">
                                                 <mat-icon [attr.style]="caseDotStyle(i)">fiber_manual_record</mat-icon>
                                                 Case {{i + 1}}
@@ -134,7 +134,7 @@
                                             <br>Input:
                                         </mat-card-subtitle>
                                     </mat-card-header>
-                                    <div *ngIf="problem.results.length">
+                                    <div *ngIf="results.length">
                                         <mat-card-content>
                                             <mat-form-field *ngFor="let pair of result.input | keyvalue; let i = index"
                                                     appearance="outline" floatLabel="always" class="tc-input">
