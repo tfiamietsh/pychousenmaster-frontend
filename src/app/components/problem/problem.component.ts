@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Problem } from 'src/app/helpers/problem';
 import { Submission } from 'src/app/helpers/submission';
-import { Testcase } from 'src/app/helpers/testcase';
 import hljs from 'highlight.js/lib/core';
 import python from 'highlight.js/lib/languages/python';
 
@@ -13,26 +13,14 @@ import python from 'highlight.js/lib/languages/python';
   styleUrl: './problem.component.sass'
 })
 export class ProblemComponent {
-    title: string;
+    problem: Problem;
     colors: string[] = ['deepskyblue', 'darkorange', 'crimson'];
     difficulties: string[] = ['Easy', 'Medium', 'Hard'];
-    difficultyIdx: number;
     states: string[] = ['Solved', 'Attempted', ''];
     stateIcons: string[] = ['panorama_fish_eye', 'change_history'];
-    stateIdx: number;
-    liked: number;
-    disliked: number;
-    description: string;
-    totalAccepted: number;
-    totalSubmissions: number;
-    tags: string[];
-    testcases: Testcase[];
     testcaseIdx: number;
-    results: string[];
     resultIdx: number;
-    status: string;
     stColumns: string[] = ['status', 'runtime', 'memory'];
-    submissions: Submission[];
     editorDiv: HTMLDivElement | any;
 
     constructor(private authService: AuthenticationService, private router: Router) { }
@@ -43,27 +31,27 @@ export class ProblemComponent {
     }
 
     get difficulty() {
-        return this.difficulties[this.difficultyIdx];
+        return this.difficulties[this.problem.difficulty];
     }
 
     get difficultyStyle() {
-        return 'color:' + this.colors[this.difficultyIdx];
+        return 'color:' + this.colors[this.problem.difficulty];
     }
 
     get state() {
-        return this.states[this.stateIdx];
+        return this.states[this.problem.state];
     }
 
     get stateStyle() {
-        return 'color:' + this.colors[this.stateIdx];
+        return 'color:' + this.colors[this.problem.state];
     }
 
     get stateIcon() {
-        return this.stateIcons[this.stateIdx];
+        return this.stateIcons[this.problem.state];
     }
 
     get ar() {
-        return (100 * this.totalAccepted / this.totalSubmissions).toFixed(1) + '%';
+        return (100 * this.problem.totalAccepted / this.problem.totalSubmissions).toFixed(1) + '%';
     }
 
     get user() {
@@ -92,7 +80,7 @@ export class ProblemComponent {
     }
 
     get testcase() {
-        return this.testcases[this.testcaseIdx];
+        return this.problem.testcases[this.testcaseIdx];
     }
 
     tcCaseColor(i: number) {
@@ -104,11 +92,11 @@ export class ProblemComponent {
     }
 
     get result() {
-        return this.testcases[this.resultIdx];
+        return this.problem.testcases[this.resultIdx];
     }
 
     get expected() {
-        return this.results[this.resultIdx];
+        return this.problem.results[this.resultIdx];
     }
 
     rCaseColor(i: number) {
@@ -121,7 +109,7 @@ export class ProblemComponent {
     }
 
     caseDotStyle(i: number) {
-        const idx = this.testcases[i].output == this.results[i] ? 0 : 2;
+        const idx = this.problem.testcases[i].output == this.problem.results[i] ? 0 : 2;
         return `font-size: 8px; color: ${this.colors[idx]}`;
     }
 

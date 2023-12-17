@@ -6,7 +6,7 @@
                 <mat-tab label="Description">
                     <mat-card>
                         <mat-card-header>
-                            <mat-card-title>{{title}}</mat-card-title>
+                            <mat-card-title>{{problem.title}}</mat-card-title>
                             <mat-card-subtitle class="prob-mcs">
                                 <span class="fl" [attr.style]="difficultyStyle">
                                     <b>{{difficulty}}&nbsp;&nbsp;</b>
@@ -18,9 +18,9 @@
                                 </div>
                                 <div class="fl">
                                     <mat-icon class="phi" (click)="like()">thumb_up</mat-icon>
-                                    <span>{{liked}}</span>&nbsp;&nbsp;
+                                    <span>{{problem.likes}}</span>&nbsp;&nbsp;
                                     <mat-icon class="phi">thumb_down</mat-icon>
-                                    <span (click)="dislike()">{{disliked}}</span>&nbsp;&nbsp;
+                                    <span (click)="dislike()">{{problem.dislikes}}</span>&nbsp;&nbsp;
                                     <mat-icon *ngIf="user" class="phi" matTooltip="Add to Challenge"
                                             (click)="openDialog()">
                                         library_add
@@ -29,13 +29,13 @@
                             </mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
-                            <p class="description">{{description}}</p>
+                            <p class="description">{{problem.description}}</p>
                         </mat-card-content>
                         <mat-card-actions class="asar">
                             <span>Accepted</span>&nbsp;&nbsp;
-                            <span>{{totalAccepted}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>{{problem.totalAccepted}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
                             <span>Submissions</span>&nbsp;&nbsp;
-                            <span>{{totalSubmissions}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>{{problem.totalSubmissions}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
                             <span>Acceptance Rate</span>&nbsp;&nbsp;
                             <span>{{ar}}</span>
                         </mat-card-actions>
@@ -43,7 +43,7 @@
                             <mat-divider/>
                             <br>
                             <mat-chip-listbox>
-                                <mat-chip *ngFor="let tag of tags">{{tag}}</mat-chip>
+                                <mat-chip *ngFor="let tag of problem.tags">{{tag}}</mat-chip>
                             </mat-chip-listbox>
                         </mat-card-footer>
                     </mat-card>
@@ -110,8 +110,8 @@
                         <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" fitInkBarToContent dynamicHeight>
                             <mat-tab label="Testcase">
                                 <div class="margin-div">
-                                    <button mat-button *ngFor="let _ of testcases; let i = index" [color]="tcCaseColor(i)"
-                                            class="case-btn" (click)="setTestcaseIdx(i)">
+                                    <button mat-button *ngFor="let _ of problem.testcases; let i = index"
+                                            [color]="tcCaseColor(i)" class="case-btn" (click)="setTestcaseIdx(i)">
                                         Case {{i + 1}}
                                     </button>
                                     <mat-form-field *ngFor="let pair of testcase.input | keyvalue"
@@ -123,18 +123,18 @@
                             </mat-tab>
                             <mat-tab label="Result">
                                 <mat-card>
-                                    <mat-card-header [attr.style]="statusColor(status)">
-                                        <mat-card-title class="res-mct status">{{status}}</mat-card-title>
-                                        <mat-card-subtitle *ngIf="results.length">
-                                            <button mat-button *ngFor="let _ of results; let i = index" [color]="rCaseColor(i)"
-                                                    class="case-btn" (click)="setResultIdx(i)">
+                                    <mat-card-header [attr.style]="statusColor(problem.status)">
+                                        <mat-card-title class="res-mct status">{{problem.status}}</mat-card-title>
+                                        <mat-card-subtitle *ngIf="problem.results.length">
+                                            <button mat-button *ngFor="let _ of problem.results; let i = index"
+                                                    [color]="rCaseColor(i)" class="case-btn" (click)="setResultIdx(i)">
                                                 <mat-icon [attr.style]="caseDotStyle(i)">fiber_manual_record</mat-icon>
                                                 Case {{i + 1}}
                                             </button>
                                             <br>Input:
                                         </mat-card-subtitle>
                                     </mat-card-header>
-                                    <div *ngIf="results.length">
+                                    <div *ngIf="problem.results.length">
                                         <mat-card-content>
                                             <mat-form-field *ngFor="let pair of result.input | keyvalue; let i = index"
                                                     appearance="outline" floatLabel="always" class="tc-input">
