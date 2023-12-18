@@ -73,7 +73,7 @@
                             </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="stColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: stColumns;" (click)="select(row)"></tr>
+                        <tr mat-row *matRowDef="let row; columns: stColumns;" (click)="insertCode(row.code)"></tr>
                     </table>
                 </mat-tab>
             </mat-tab-group>
@@ -89,7 +89,7 @@
                                 </td>
                                 <td style="text-align: end">
                                     <mat-icon class="cei center" matTooltip="Reset to default code definition"
-                                            (click)="resetCode()">
+                                            (click)="insertCode(problem.code)">
                                         settings_backup_restore
                                     </mat-icon>
                                     <mat-icon class="cei cei-inv center" matTooltip="Retrieve last submitted code"

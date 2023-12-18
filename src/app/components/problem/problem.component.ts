@@ -38,7 +38,10 @@ export class ProblemComponent {
         let title = this.route.snapshot.paramMap.get('title');
         let user_id = this.authService.user?.id;
         this.problemService.getProblemByTitle(title, user_id ? user_id : '-1')
-            .subscribe(problem => { this.problem = problem; });
+            .subscribe(problem => {
+                this.problem = problem;
+                this.insertCode(problem.code);
+            });
     }
 
     get difficulty(): string {
@@ -135,12 +138,9 @@ export class ProblemComponent {
         return `font-size: 8px; color: ${this.colors[idx]}`;
     }
 
-    resetCode() {
-        //  TODO
-    }
-
     retrieveCode() {
-        //  TODO
+        if (this.problem.submissions.length > 0)
+            this.insertCode(this.problem.submissions[0].code);
     }
 
     run() {
@@ -159,9 +159,9 @@ export class ProblemComponent {
         //  TODO
     }
 
-    select(submission: Submission) {
-        this.editorDiv.innerText = submission.code;
-        this.highlight();
+    insertCode(code: string) {
+        this.editorDiv.innerText = code;
+        this.highlightResetCaret();
     }
 
     private static getTextNodeAtPosition(root: Node, index: number) {
@@ -211,10 +211,14 @@ export class ProblemComponent {
         this.highlight();
     }
 
+    private highlightResetCaret() {
+        let innerHTML = hljs.highlight(this.editorDiv.innerText, { language: 'python' }).value;
+        this.editorDiv.innerHTML = `<pre><code>${innerHTML}</code></pre>`;
+    }
+
     highlight() {
         let restore = this.saveCaretPosition(this.editorDiv);
-        let innerHTML = hljs.highlight(this.editorDiv.innerText, { language: 'python' }).value;
-        this.editorDiv.innerHTML = `<pre><code [lineNumbers]="true">${innerHTML}</code></pre>`;
+        this.highlightResetCaret();
         restore();
     }
 
