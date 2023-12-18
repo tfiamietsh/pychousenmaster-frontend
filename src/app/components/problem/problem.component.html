@@ -42,7 +42,7 @@
                         <mat-card-footer>
                             <mat-divider/>
                             <br>
-                            <mat-chip-listbox>
+                            <mat-chip-listbox class="mclb">
                                 <mat-chip *ngFor="let tag of problem.tags">{{tag}}</mat-chip>
                             </mat-chip-listbox>
                         </mat-card-footer>
@@ -62,14 +62,14 @@
                             <th mat-header-cell *matHeaderCellDef>Runtime</th>
                             <td mat-cell *matCellDef="let element">
                                 <mat-icon class="tb-icon">access_time</mat-icon>
-                                {{element.runtime}} ms
+                                {{runtime(element)}}
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="memory">
                             <th mat-header-cell *matHeaderCellDef>Memory</th>
                             <td mat-cell *matCellDef="let element">
                                 <mat-icon class="tb-icon">memory</mat-icon>
-                                {{element.memory}} MB
+                                {{memory(element)}}
                             </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="stColumns"></tr>
@@ -93,7 +93,7 @@
                                         settings_backup_restore
                                     </mat-icon>
                                     <mat-icon class="cei cei-inv center" matTooltip="Retrieve last submitted code"
-                                            (click)="retrieveCode()">
+                                            (click)="retrieveCode()" *ngIf="user">
                                         forward
                                     </mat-icon>
                                 </td>
@@ -121,11 +121,11 @@
                                     </mat-form-field>
                                 </div>
                             </mat-tab>
-                            <mat-tab label="Result">
+                            <mat-tab label="Result" *ngIf="results.length">
                                 <mat-card>
                                     <mat-card-header [attr.style]="statusColor(status)">
                                         <mat-card-title class="res-mct status">{{status}}</mat-card-title>
-                                        <mat-card-subtitle *ngIf="results.length">
+                                        <mat-card-subtitle>
                                             <button mat-button *ngFor="let _ of results; let i = index"
                                                     [color]="rCaseColor(i)" class="case-btn" (click)="setResultIdx(i)">
                                                 <mat-icon [attr.style]="caseDotStyle(i)">fiber_manual_record</mat-icon>
@@ -134,7 +134,7 @@
                                             <br>Input:
                                         </mat-card-subtitle>
                                     </mat-card-header>
-                                    <div *ngIf="results.length">
+                                    <div>
                                         <mat-card-content>
                                             <mat-form-field *ngFor="let pair of result.input | keyvalue; let i = index"
                                                     appearance="outline" floatLabel="always" class="tc-input">
@@ -164,8 +164,8 @@
                         </mat-tab-group>
                     </div>
                     <div class="tc-btn-group">
-                        <button mat-flat-button class="tc-run" (click)="run()">Run</button>
-                        <button mat-flat-button color="accent" (click)="submit()">Submit</button>
+                        <button mat-flat-button class="tc-run" (click)="run()" [matTooltip]="tip('Run')">Run</button>
+                        <button mat-flat-button color="accent" (click)="submit()" [matTooltip]="tip('Submit')">Submit</button>
                     </div>
                 </as-split-area>
             </as-split>
