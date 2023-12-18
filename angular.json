@@ -16,7 +16,8 @@
 						"tsConfig": "tsconfig.json",
 						"aot": true,
 						"styles": [
-							"@angular/material/prebuilt-themes/indigo-pink.css"
+							"@angular/material/prebuilt-themes/indigo-pink.css",
+                            "highlight.js/styles/github.css"
 						],
                         "baseHref": "/"
 					}
