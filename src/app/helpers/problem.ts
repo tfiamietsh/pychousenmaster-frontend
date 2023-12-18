@@ -8,6 +8,7 @@ export interface Problem {
     likes: number;
     dislikes: number;
     description: string;
+    code: string;
     totalAccepted: number;
     totalSubmissions: number;
     tags: string[];
