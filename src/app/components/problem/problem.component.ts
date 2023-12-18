@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { FeedbackService } from 'src/app/services/feedback.service';
 import { ProblemService } from 'src/app/services/problem.service';
 import { Problem } from 'src/app/helpers/problem';
 import { Submission } from 'src/app/helpers/submission';
@@ -9,6 +10,7 @@ import hljs from 'highlight.js/lib/core';
 import python from 'highlight.js/lib/languages/python';
 import { User } from 'src/app/helpers/user';
 import { Testcase } from 'src/app/helpers/testcase';
+import { Feedback } from 'src/app/helpers/feedback';
 
 @Component({
   selector: 'problem',
@@ -17,6 +19,8 @@ import { Testcase } from 'src/app/helpers/testcase';
 })
 export class ProblemComponent {
     problem: Problem;
+    feedback: Feedback;
+    user_id: string;
     colors: string[] = ['deepskyblue', 'darkorange', 'crimson'];
     difficulties: string[] = ['Easy', 'Medium', 'Hard'];
     states: string[] = ['Solved', 'Attempted', ''];
@@ -29,7 +33,8 @@ export class ProblemComponent {
     editorDiv: HTMLDivElement | any;
 
     constructor(private authService: AuthenticationService, private router: Router,
-        private route: ActivatedRoute, private problemService: ProblemService) { }
+        private route: ActivatedRoute, private problemService: ProblemService,
+        private feedbackService: FeedbackService) { }
 
     ngOnInit() {
         this.editorDiv = document.getElementsByClassName('editor-div')[0];
@@ -37,10 +42,12 @@ export class ProblemComponent {
 
         let title = this.route.snapshot.paramMap.get('title');
         let user_id = this.authService.user?.id;
-        this.problemService.getProblemByTitle(title, user_id ? user_id : '-1')
+        this.user_id = user_id ? user_id : '-1';
+        this.problemService.getProblemByTitle(title, this.user_id)
             .subscribe(problem => {
                 this.problem = problem;
                 this.insertCode(problem.code);
+                this.updateFeedback();
             });
     }
 
@@ -75,15 +82,23 @@ export class ProblemComponent {
         return this.authService.user;
     }
 
-    like() {
-        if (this.user) {
-            //  TODO
-        }
+    updateFeedback() {
+        this.feedbackService.getFeedback(this.problem.title, this.user_id)
+            .subscribe(feedback => { this.feedback = feedback; });
     }
 
-    dislike() {
+    get positiveFeedbackColor() {
+        return this.feedback.user > 0 ? 'primary' : '';
+    }
+
+    get negativeFeedbackColor() {
+        return this.feedback.user < 0 ? 'primary' : '';
+    }
+
+    leaveFeedback(feedback: number) {
         if (this.user) {
-            //  TODO
+            this.feedbackService.leaveFeedback(this.problem.title, this.user_id, Math.sign(feedback));
+            this.updateFeedback();
         }
     }
     

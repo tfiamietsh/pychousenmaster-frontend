@@ -5,8 +5,6 @@ export interface Problem {
     title: string;
     difficulty: number;
     state: number;
-    likes: number;
-    dislikes: number;
     description: string;
     code: string;
     totalAccepted: number;

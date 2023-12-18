@@ -17,10 +17,14 @@
                                     </mat-icon>&nbsp;&nbsp;
                                 </div>
                                 <div class="fl">
-                                    <mat-icon class="phi" (click)="like()">thumb_up</mat-icon>
-                                    <span>{{problem.likes}}</span>&nbsp;&nbsp;
-                                    <mat-icon class="phi">thumb_down</mat-icon>
-                                    <span (click)="dislike()">{{problem.dislikes}}</span>&nbsp;&nbsp;
+                                    <mat-icon class="phi" (click)="leaveFeedback(1)" [color]="positiveFeedbackColor">
+                                        thumb_up
+                                    </mat-icon>
+                                    <span>{{feedback.positive}}</span>&nbsp;&nbsp;
+                                    <mat-icon class="phi" (click)="leaveFeedback(-1)" [color]="negativeFeedbackColor">
+                                        thumb_down
+                                    </mat-icon>
+                                    <span>{{feedback.negative}}</span>&nbsp;&nbsp;
                                     <mat-icon *ngIf="user" class="phi" matTooltip="Add to Challenge"
                                             (click)="openDialog()">
                                         library_add
