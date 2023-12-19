@@ -121,7 +121,7 @@
                                     <mat-form-field *ngFor="let pair of testcase.input | keyvalue"
                                             appearance="outline" floatLabel="always" class="tc-input">
                                         <mat-label>{{pair.key}} =</mat-label>
-                                        <input matInput [value]="pair.value">
+                                        <input matInput #_ [value]="pair.value" (change)="modifyTestcase(pair.key, _.value)">
                                     </mat-form-field>
                                 </div>
                             </mat-tab>

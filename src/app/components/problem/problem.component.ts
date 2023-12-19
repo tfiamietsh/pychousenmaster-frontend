@@ -101,6 +101,10 @@ export class ProblemComponent {
             this.updateFeedback();
         }
     }
+
+    modifyTestcase(key: string, value: string) {
+        this.testcase.input[key] = value;
+    }
     
     problemTabChange(event: MatTabChangeEvent) {
         if (event.index == 1)

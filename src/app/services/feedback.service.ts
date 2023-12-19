@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environment/environment';
 import { Feedback } from '../helpers/feedback';
-import { map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class FeedbackService {
