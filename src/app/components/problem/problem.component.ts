@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Component, ViewChild } from '@angular/core';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { ProblemService } from 'src/app/services/problem.service';
+import { SandboxService } from 'src/app/services/sandbox.service';
 import { Problem } from 'src/app/helpers/problem';
 import { Submission } from 'src/app/helpers/submission';
 import hljs from 'highlight.js/lib/core';
@@ -26,15 +27,17 @@ export class ProblemComponent {
     states: string[] = ['Solved', 'Attempted', ''];
     stateIcons: string[] = ['panorama_fish_eye', 'change_history'];
     testcaseIdx: number = 0;
-    results: string[] = [];
-    resultIdx: number = 0;
+    outputs: string[] = [];
+    results: boolean[] = [];
+    outputIdx: number = 0;
     status: string = '';
     stColumns: string[] = ['status', 'runtime', 'memory'];
     editorDiv: HTMLDivElement | any;
+    @ViewChild('tct') testcasesTabGroup: MatTabGroup;
 
     constructor(private authService: AuthenticationService, private router: Router,
         private route: ActivatedRoute, private problemService: ProblemService,
-        private feedbackService: FeedbackService) { }
+        private feedbackService: FeedbackService, private sandboxService: SandboxService) { }
 
     ngOnInit() {
         this.editorDiv = document.getElementsByClassName('editor-div')[0];
@@ -123,20 +126,20 @@ export class ProblemComponent {
         return i == this.testcaseIdx ? 'primary' : '';
     }
 
-    setResultIdx(i: number) {
-        this.resultIdx = i;
+    setOutputIdx(i: number) {
+        this.outputIdx = i;
     }
 
-    get result(): Testcase {
-        return this.problem.testcases[this.resultIdx];
+    get expected(): Testcase {
+        return this.problem.testcases[this.outputIdx];
     }
 
-    get expected(): string {
-        return this.results[this.resultIdx];
+    get output(): string {
+        return this.outputs[this.outputIdx];
     }
 
     rCaseColor(i: number): string {
-        return i == this.resultIdx ? 'primary' : '';
+        return i == this.outputIdx ? 'primary' : '';
     }
 
     statusColor(status: string): string {
@@ -153,8 +156,8 @@ export class ProblemComponent {
     }
 
     caseDotStyle(i: number): string {
-        const idx = this.problem.testcases[i].output == this.results[i] ? 0 : 2;
-        return `font-size: 8px; color: ${this.colors[idx]}`;
+        const idx = this.results[i] ? 0 : 2;
+        return `margin-bottom: -8px; font-size: 8px; color: ${this.colors[idx]}`;
     }
 
     retrieveCode() {
@@ -164,14 +167,19 @@ export class ProblemComponent {
 
     run() {
         if (this.user) {
-            //  TODO
+            this.sandboxService.run(this.problem.title, this.editorDiv.innerText, JSON.stringify(this.problem.testcases))
+                .subscribe(response => {
+                    this.outputs = response['outputs'];
+                    this.results = response['results'];
+                    this.status = response['status'];
+                    this.testcasesTabGroup.selectedIndex = 1;
+                });
         }
     }
 
     submit() {
-        if (this.user) {
-            //  TODO
-        }
+        if (this.user)
+            this.sandboxService.submit(this.problem.title, this.user_id, this.editorDiv.innerText).subscribe();
     }
 
     openDialog() {
