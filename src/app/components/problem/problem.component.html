@@ -1,7 +1,7 @@
 <div class="splitter-container">
     <as-split direction="horizontal" restrictMove="true" gutterSize="6">
         <as-split-area [minSize]="33" [maxSize]="67" class="hid-scroll">
-            <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" fitInkBarToContent
+            <mat-tab-group #pt mat-stretch-tabs="false" mat-align-tabs="start" fitInkBarToContent
                     (selectedTabChange)=problemTabChange($event) animationDuration="0">
                 <mat-tab label="Description">
                     <mat-card>
@@ -37,9 +37,9 @@
                         </mat-card-content>
                         <mat-card-actions class="asar">
                             <span>Accepted</span>&nbsp;&nbsp;
-                            <span>{{problem.totalAccepted}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>{{submissionsInfo.totalAccepted}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
                             <span>Submissions</span>&nbsp;&nbsp;
-                            <span>{{problem.totalSubmissions}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <span>{{submissionsInfo.totalSubmissions}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
                             <span>Acceptance Rate</span>&nbsp;&nbsp;
                             <span>{{ar}}</span>
                         </mat-card-actions>
@@ -54,12 +54,13 @@
                 </mat-tab>
                 <mat-tab label="Discussion"/>
                 <mat-tab *ngIf="user" label="Submissions">
-                    <table mat-table [dataSource]="submissions" [needsPositionStickyOnElement]="true" class="gray">
+                    <table mat-table #smt [dataSource]="submissionsInfo.submissions" [needsPositionStickyOnElement]="true"
+                            class="gray">
                         <ng-container matColumnDef="status">
                             <th mat-header-cell *matHeaderCellDef>Status</th>
                             <td mat-cell *matCellDef="let element">
                                 <span [attr.style]="statusColor(element.status)">{{element.status}}</span>
-                                <br>{{element.datetime}}
+                                <br>{{element.date}}
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="runtime">

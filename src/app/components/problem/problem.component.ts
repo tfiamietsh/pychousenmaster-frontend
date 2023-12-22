@@ -5,6 +5,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { ProblemService } from 'src/app/services/problem.service';
 import { SandboxService } from 'src/app/services/sandbox.service';
+import { SubmissionsService } from 'src/app/services/submissions.service';
 import { Problem } from 'src/app/helpers/problem';
 import { Submission } from 'src/app/helpers/submission';
 import hljs from 'highlight.js/lib/core';
@@ -12,6 +13,8 @@ import python from 'highlight.js/lib/languages/python';
 import { User } from 'src/app/helpers/user';
 import { Testcase } from 'src/app/helpers/testcase';
 import { Feedback } from 'src/app/helpers/feedback';
+import { SubmissionsInfo } from 'src/app/helpers/submissions-info';
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'problem',
@@ -21,6 +24,7 @@ import { Feedback } from 'src/app/helpers/feedback';
 export class ProblemComponent {
     problem: Problem;
     feedback: Feedback;
+    submissionsInfo: SubmissionsInfo;
     user_id: string;
     colors: string[] = ['deepskyblue', 'darkorange', 'crimson'];
     difficulties: string[] = ['Easy', 'Medium', 'Hard'];
@@ -34,10 +38,12 @@ export class ProblemComponent {
     stColumns: string[] = ['status', 'runtime', 'memory'];
     editorDiv: HTMLDivElement | any;
     @ViewChild('tct') testcasesTabGroup: MatTabGroup;
+    @ViewChild('pt') problemTabGroup: MatTabGroup;
 
     constructor(private authService: AuthenticationService, private router: Router,
         private route: ActivatedRoute, private problemService: ProblemService,
-        private feedbackService: FeedbackService, private sandboxService: SandboxService) { }
+        private feedbackService: FeedbackService, private sandboxService: SandboxService,
+        private submissionsService: SubmissionsService) { }
 
     ngOnInit() {
         this.editorDiv = document.getElementsByClassName('editor-div')[0];
@@ -51,6 +57,7 @@ export class ProblemComponent {
                 this.problem = problem;
                 this.insertCode(problem.code);
                 this.updateFeedback();
+                this.updateSubmissions();
             });
     }
 
@@ -63,21 +70,21 @@ export class ProblemComponent {
     }
 
     get state(): string {
-        return this.states[this.problem.state];
+        return this.states[this.submissionsInfo.problemState];
     }
 
     get stateStyle(): string {
-        return 'color:' + this.colors[this.problem.state];
+        return 'color:' + this.colors[this.submissionsInfo.problemState];
     }
 
     get stateIcon(): string {
-        return this.stateIcons[this.problem.state];
+        return this.stateIcons[this.submissionsInfo.problemState];
     }
 
     get ar(): string {
         let value = 0;
-        if (this.problem.totalSubmissions != 0)
-            value = 100 * this.problem.totalAccepted / this.problem.totalSubmissions;
+        if (this.submissionsInfo.totalSubmissions != 0)
+            value = 100 * this.submissionsInfo.totalAccepted / this.submissionsInfo.totalSubmissions;
         return value.toFixed(1) + '%';
     }
 
@@ -88,6 +95,11 @@ export class ProblemComponent {
     updateFeedback() {
         this.feedbackService.getFeedback(this.problem.title, this.user_id)
             .subscribe(feedback => { this.feedback = feedback; });
+    }
+
+    updateSubmissions() {
+        this.submissionsService.getSubmissionsInfo(this.problem.title, this.user_id)
+            .subscribe(submissionsInfo => { this.submissionsInfo = submissionsInfo; });
     }
 
     get positiveFeedbackColor() {
@@ -148,11 +160,11 @@ export class ProblemComponent {
     }
 
     runtime(submission: Submission): string {
-        return submission.runtime < 0 ? 'N/A' : submission.runtime + 'ms';
+        return submission.runtime < 0 ? 'N/A' : submission.runtime + ' ms';
     }
 
     memory(submission: Submission): string {
-        return submission.memory < 0 ? 'N/A' : submission.memory + 'MB';
+        return submission.memory < 0 ? 'N/A' : submission.memory + ' MB';
     }
 
     caseDotStyle(i: number): string {
@@ -161,8 +173,8 @@ export class ProblemComponent {
     }
 
     retrieveCode() {
-        if (this.problem.submissions.length > 0)
-            this.insertCode(this.problem.submissions[0].code);
+        if (this.submissionsInfo.submissions.length > 0)
+            this.insertCode(this.submissionsInfo.submissions[0].code);
     }
 
     run() {
@@ -178,8 +190,10 @@ export class ProblemComponent {
     }
 
     submit() {
-        if (this.user)
+        if (this.user) {
             this.sandboxService.submit(this.problem.title, this.user_id, this.editorDiv.innerText).subscribe();
+            this.problemTabGroup.selectedIndex = 2;
+        }
     }
 
     openDialog() {
