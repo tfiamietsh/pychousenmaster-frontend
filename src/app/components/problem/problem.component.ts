@@ -14,7 +14,6 @@ import { User } from 'src/app/helpers/user';
 import { Testcase } from 'src/app/helpers/testcase';
 import { Feedback } from 'src/app/helpers/feedback';
 import { SubmissionsInfo } from 'src/app/helpers/submissions-info';
-import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'problem',
@@ -36,7 +35,7 @@ export class ProblemComponent {
     outputIdx: number = 0;
     status: string = '';
     stColumns: string[] = ['status', 'runtime', 'memory'];
-    editorDiv: HTMLDivElement | any;
+    editorElem: HTMLElement | any;
     @ViewChild('tct') testcasesTabGroup: MatTabGroup;
     @ViewChild('pt') problemTabGroup: MatTabGroup;
 
@@ -46,7 +45,7 @@ export class ProblemComponent {
         private submissionsService: SubmissionsService) { }
 
     ngOnInit() {
-        this.editorDiv = document.getElementsByClassName('editor-div')[0];
+        this.editorElem = document.getElementById('code');
         hljs.registerLanguage('python', python);
 
         let title = this.route.snapshot.paramMap.get('title');
@@ -179,7 +178,7 @@ export class ProblemComponent {
 
     run() {
         if (this.user) {
-            this.sandboxService.run(this.problem.title, this.editorDiv.innerText, JSON.stringify(this.problem.testcases))
+            this.sandboxService.run(this.problem.title, this.editorElem.innerText, JSON.stringify(this.problem.testcases))
                 .subscribe(response => {
                     this.outputs = response['outputs'];
                     this.results = response['results'];
@@ -191,7 +190,7 @@ export class ProblemComponent {
 
     submit() {
         if (this.user) {
-            this.sandboxService.submit(this.problem.title, this.user_id, this.editorDiv.innerText).subscribe();
+            this.sandboxService.submit(this.problem.title, this.user_id, this.editorElem.innerText).subscribe();
             this.problemTabGroup.selectedIndex = 2;
         }
     }
@@ -201,7 +200,9 @@ export class ProblemComponent {
     }
 
     insertCode(code: string) {
-        this.editorDiv.innerText = code;
+        console.log(code);
+
+        this.editorElem.innerText = code;
         this.highlightResetCaret();
     }
 
@@ -239,7 +240,7 @@ export class ProblemComponent {
         let keyCodeMap = { 'Enter': '\u000A', 'Tab': '\u0009' };
         if (event.key in keyCodeMap) {
             event.preventDefault();
-            let doc = this.editorDiv.ownerDocument.defaultView;
+            let doc = this.editorElem.ownerDocument.defaultView;
             let sel = doc.getSelection();
             let range = sel.getRangeAt(0);
             let tabNode = document.createTextNode(keyCodeMap[event.key]);
@@ -253,12 +254,11 @@ export class ProblemComponent {
     }
 
     private highlightResetCaret() {
-        let innerHTML = hljs.highlight(this.editorDiv.innerText, { language: 'python' }).value;
-        this.editorDiv.innerHTML = `<pre><code>${innerHTML}</code></pre>`;
+        this.editorElem.innerHTML = hljs.highlight(this.editorElem.innerText, { language: 'python' }).value;
     }
 
     highlight() {
-        let restore = this.saveCaretPosition(this.editorDiv);
+        let restore = this.saveCaretPosition(this.editorElem);
         this.highlightResetCaret();
         restore();
     }
