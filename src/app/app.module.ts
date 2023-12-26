@@ -17,6 +17,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AngularSplitModule } from 'angular-split';
 import { FlexModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
@@ -26,6 +29,8 @@ import { HomeComponent } from './components/home/home.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ProblemComponent } from './components/problem/problem.component';
+import { ChallengesComponent } from './components/challenges/challenges.component';
+import { NewChallengeDialogComponent } from './components/new-challenge-dialog/new-challenge-dialog.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
@@ -51,6 +56,9 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
         MatExpansionModule,
         MatChipsModule,
         MatDividerModule,
+        MatSlideToggleModule,
+        MatListModule,
+        MatDialogModule,
         AngularSplitModule,
         FlexModule,
         HighlightModule
@@ -61,7 +69,9 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
         HomeComponent,
         SignUpComponent,
         SignInComponent,
-        ProblemComponent
+        ProblemComponent,
+        ChallengesComponent,
+        NewChallengeDialogComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,0 +1,60 @@
+<div class="left-block m-both">
+    <mat-card>
+        <mat-card-header class="max-width mctg">
+            <mat-card-title-group class="mctg">
+                <mat-card-title>{{title}}</mat-card-title>
+                <mat-icon *ngIf="authorized" class="right mctg-right mt ptr" (click)="openDialog()">
+                    add_circle_outline
+                </mat-icon>
+            </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-divider/>
+            <table mat-table [dataSource]="challenges">
+                <ng-container matColumnDef="name">
+                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+                <ng-container matColumnDef="_">
+                    <td mat-cell *matCellDef="let element" class="tar">
+                        <mat-icon class="as">{{challengeIcon(element.isPublic)}}</mat-icon>
+                    </td>
+                </ng-container>
+                <tr mat-row class="item" (click)="setChallengeIdx(i)"
+                    *matRowDef="let row; columns: challengesColumns; let i = index"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+</div>
+<div class="right-block m-both">
+    <mat-card>
+        <mat-card-header class="max-width">
+            <mat-card-title-group class="mctg">
+                <mat-card-title>
+                    {{challenge.name}}
+                    <mat-slide-toggle *ngIf="authorized" hideIcon="true" class="ml" [checked]="challenge.isPublic"
+                            (click)="toggle()">
+                        <span class="ml">{{toggleText}}</span>
+                    </mat-slide-toggle>
+                </mat-card-title>
+                <div *ngIf="authorized" class="right delete">
+                    <button mat-stroked-button class="ml" (click)="deleteChallenge()">
+                        <span class="crimson ptr">Delete</span>
+                    </button>
+                </div>
+            </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content class="mcc-mb">
+            <mat-selection-list>
+                <mat-divider/>
+                <mat-list-item class="item" *ngFor="let name of challenge.problems; let i = index"
+                        (mouseover)="setSelectedIdx(i)" (mouseleave)="setSelectedIdx(-1)">
+                    <div matListItemTitle [routerLink]="makeLink(name)">
+                        {{name}}
+                        <mat-icon class="right crimson ptr" (click)="$event.stopPropagation(); deleteProblem()"
+                            *ngIf="authorized && selectedIdx == i">delete_outline</mat-icon>
+                    </div>
+                </mat-list-item>
+            </mat-selection-list>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -4,7 +4,8 @@ import { HomeComponent } from './components/home/home.component'
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ProblemComponent } from './components/problem/problem.component';
-import { guestOnly } from './helpers/authentication.guard';
+import { ChallengesComponent } from './components/challenges/challenges.component';
+import { guestOnly, userOnly } from './helpers/authentication.guard';
 
 const routes: Routes = [{
     path: '',
@@ -21,6 +22,9 @@ const routes: Routes = [{
 }, {
     path: 'problems/:title',
     component: ProblemComponent
+}, {
+    path: 'challenges/:username',
+    component: ChallengesComponent
 }, {
     path: '**',
     redirectTo: ''

@@ -13,6 +13,10 @@ export class NavbarComponent {
         return !this.authService.user;
     }
 
+    goToChallenges() {
+        window.location.href = `${window.location.origin}/challenges/${this.authService.user.username}`;
+    }
+
     logout() {
         this.authService.logout();
     }
