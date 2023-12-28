@@ -22,7 +22,7 @@ export class NewChallengeDialogComponent {
     confirm() {
         let challengeName = this.inputElem.value;
         if (challengeName)
-            this.challengesService.newChallenge(this.username, challengeName);
+            this.challengesService.newChallenge(this.username, challengeName).subscribe();
         this.close();
     }
 

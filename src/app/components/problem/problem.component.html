@@ -26,9 +26,28 @@
                                     </mat-icon>
                                     <span>{{feedback.negative}}</span>&nbsp;&nbsp;
                                     <mat-icon *ngIf="user" class="phi" matTooltip="Add to Challenge"
-                                            (click)="openDialog()">
+                                            (click)="updateChallenges()" [matMenuTriggerFor]="atc">
                                         library_add
                                     </mat-icon>
+                                    <mat-menu #atc>
+                                        <div style="max-height: 300px">
+                                            <div mat-menu-item *ngFor="let challenge of challenges; let i = index"
+                                                    (mouseover)="setChallengeIdx(i)" (mouseleave)="setChallengeIdx(-1)"
+                                                    style="position: relative; background: white; cursor: default">
+                                                <span style="position: absolute; left: 10px; top: 10px">{{challenge.name}}</span>
+                                                <button mat-flat-button *ngIf="!challenge.isIn" color="primary"
+                                                    style="position: absolute; right: 10px; top: 5px"
+                                                    (click)="addProblemToChallenge()">Add</button>
+                                                <button matListItemMeta *ngIf="challenge.isIn" mat-flat-button color="primary"
+                                                    style="position: absolute; right: 10px; top: 5px"
+                                                    (click)="deleteProblemFromChallenge()">Remove</button>
+                                            </div>
+                                            <button mat-stroked-button style="margin: 5px 10px" (click)="openNewChallengeDialog()">
+                                                <mat-icon matListItemIcon style="margin-right: 5px">add</mat-icon>
+                                                Create a new challenge
+                                            </button>
+                                        </div>
+                                    </mat-menu>
                                 </div>
                             </mat-card-subtitle>
                         </mat-card-header>

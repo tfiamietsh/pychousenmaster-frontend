@@ -14,9 +14,9 @@ export class ChallengesService {
         { withCredentials: true });
     }
 
-    toggleChallengeAccessSpecifier(username: string, challenge_name: string) {
+    toggleChallengeAccessSpecifier(username: string, challengeName: string) {
         return this.http.post<any>(`${environment.apiUrl}/toggle-challenge`,
-        { 'username': username, 'name': challenge_name },
+        { 'username': username, 'name': challengeName },
         { withCredentials: true });
     }
 
@@ -35,5 +35,15 @@ export class ChallengesService {
         return this.http.post<any>(`${environment.apiUrl}/delete-challenge-problem`,
         { 'username': username, 'challenge_name': challengeName, 'problem_title': problemTitle },
         { withCredentials: true });
+    }
+
+    addProblem(username: string, challengeName: string, problemTitle: string) {
+        return this.http.post<any>(`${environment.apiUrl}/add-challenge-problem`,
+        { 'username': username, 'challenge_name': challengeName, 'problem_title': problemTitle },
+        { withCredentials: true });
+    }
+
+    getProblemChallenges(username: string, problemTitle: string) {
+        return this.http.get<any>(`${environment.apiUrl}/problem-challenges/${username}+${problemTitle}`);
     }
 }

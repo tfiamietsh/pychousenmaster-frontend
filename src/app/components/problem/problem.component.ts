@@ -14,6 +14,9 @@ import { User } from 'src/app/helpers/user';
 import { Testcase } from 'src/app/helpers/testcase';
 import { Feedback } from 'src/app/helpers/feedback';
 import { SubmissionsInfo } from 'src/app/helpers/submissions-info';
+import { ChallengesService } from 'src/app/services/challenges.service';
+import { MatDialog } from '@angular/material/dialog';
+import { NewChallengeDialogComponent } from '../new-challenge-dialog/new-challenge-dialog.component';
 
 @Component({
   selector: 'problem',
@@ -24,6 +27,8 @@ export class ProblemComponent {
     problem: Problem;
     feedback: Feedback;
     submissionsInfo: SubmissionsInfo;
+    challenges: any[];
+    challengeIdx: number = -2;
     user_id: string;
     colors: string[] = ['deepskyblue', 'darkorange', 'crimson'];
     difficulties: string[] = ['Easy', 'Medium', 'Hard'];
@@ -36,17 +41,20 @@ export class ProblemComponent {
     status: string = '';
     stColumns: string[] = ['status', 'runtime', 'memory'];
     editorElem: HTMLElement | any;
+    challengesMenuElem: HTMLElement | any;
     @ViewChild('tct') testcasesTabGroup: MatTabGroup;
     @ViewChild('pt') problemTabGroup: MatTabGroup;
 
     constructor(private authService: AuthenticationService, private router: Router,
         private route: ActivatedRoute, private problemService: ProblemService,
         private feedbackService: FeedbackService, private sandboxService: SandboxService,
-        private submissionsService: SubmissionsService) { }
+        private submissionsService: SubmissionsService, private challengesService: ChallengesService,
+        private dialog: MatDialog) { }
 
     ngOnInit() {
         this.editorElem = document.getElementById('code');
         hljs.registerLanguage('python', python);
+        this.challengesMenuElem = document.getElementById('mc');
 
         let title = this.route.snapshot.paramMap.get('title');
         let user_id = this.authService.user?.id;
@@ -195,13 +203,39 @@ export class ProblemComponent {
         }
     }
 
-    openDialog() {
-        //  TODO
+    setChallengeIdx(i: number) {
+        this.challengeIdx = i;
+    }
+
+    get challenge() {
+        return this.challenges[this.challengeIdx];
+    }
+
+    addProblemToChallenge() {
+        this.challengesService.addProblem(this.user.username, this.challenge.name, this.problem.title)
+            .subscribe(_ => this.updateChallenges());
+    }
+
+    deleteProblemFromChallenge() {
+        this.challengesService.deleteProblem(this.user.username, this.challenge.name, this.problem.title)
+            .subscribe(_ => this.updateChallenges());    
+    }
+
+    updateChallenges() {
+        this.challengesService.getProblemChallenges(this.user.username, this.problem.title)
+            .subscribe(response => {
+                this.challenges = response['challenges'];
+                this.challengeIdx = 0;
+            });
+    }
+
+    openNewChallengeDialog() {
+        const dialogRef = this.dialog.open(NewChallengeDialogComponent);
+        dialogRef.componentInstance.username = this.user.username;
+        dialogRef.afterClosed().subscribe(_ => this.updateChallenges());
     }
 
     insertCode(code: string) {
-        console.log(code);
-
         this.editorElem.innerText = code;
         this.highlightResetCaret();
     }
