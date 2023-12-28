@@ -7,7 +7,7 @@ import { Problem } from '../helpers/problem';
 export class ProblemService {
     constructor(private http: HttpClient) { }
 
-    getProblemByTitle(title: string, user_id: string) {
-        return this.http.get<Problem>(`${environment.apiUrl}/problem/${title}+${user_id}`);
+    getProblemByTitle(title: string) {
+        return this.http.get<Problem>(`${environment.apiUrl}/problem/${title}`);
     }
 }

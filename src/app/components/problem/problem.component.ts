@@ -59,7 +59,7 @@ export class ProblemComponent {
         let title = this.route.snapshot.paramMap.get('title');
         let user_id = this.authService.user?.id;
         this.user_id = user_id ? user_id : '-1';
-        this.problemService.getProblemByTitle(title, this.user_id)
+        this.problemService.getProblemByTitle(title)
             .subscribe(problem => {
                 this.problem = problem;
                 this.insertCode(problem.code);
