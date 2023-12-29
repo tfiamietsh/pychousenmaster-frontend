@@ -10,7 +10,7 @@
         </mat-card-header>
         <mat-card-content>
             <mat-divider/>
-            <table mat-table [dataSource]="challenges">
+            <table mat-table [dataSource]="user-challenges">
                 <ng-container matColumnDef="name">
                     <td mat-cell *matCellDef="let element">{{element.name}}</td>
                 </ng-container>

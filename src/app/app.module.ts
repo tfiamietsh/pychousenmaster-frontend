@@ -30,7 +30,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ProblemComponent } from './components/problem/problem.component';
-import { ChallengesComponent } from './components/challenges/challenges.component';
+import { UserChallengesComponent } from './components/user-challenges/user-challenges.component';
 import { NewChallengeDialogComponent } from './components/new-challenge-dialog/new-challenge-dialog.component';
 import { ProblemsComponent } from './components/problems/problems.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
@@ -73,7 +73,7 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
         SignUpComponent,
         SignInComponent,
         ProblemComponent,
-        ChallengesComponent,
+        UserChallengesComponent,
         NewChallengeDialogComponent,
         ProblemsComponent
     ],

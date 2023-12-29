@@ -1,18 +1,18 @@
 import { Component } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { NewChallengeDialogComponent } from "../new-challenge-dialog/new-challenge-dialog.component";
-import { ChallengesService } from 'src/app/services/challenges.service';
+import { ChallengesService } from 'src/app/services/user-challenges.service';
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { Challenge } from "src/app/helpers/challenge";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'challenges',
-  templateUrl: './challenges.component.html',
-  styleUrl: './challenges.component.sass'
+  selector: 'user-challenges',
+  templateUrl: './user-challenges.component.html',
+  styleUrl: './user-challenges.component.sass'
 })
-export class ChallengesComponent {
-    challenges: Challenge[];
+export class UserChallengesComponent {
+    user-challenges: Challenge[];
     challengesColumns: string[] = ['name', '_'];
     challengeIdx: number = 0;
     selectedIdx: number = -1;
@@ -31,7 +31,7 @@ export class ChallengesComponent {
     }
 
     get challenge() {
-        return this.challenges[this.challengeIdx];
+        return this.user-challenges[this.challengeIdx];
     }
 
     get toggleText() {
@@ -67,7 +67,7 @@ export class ChallengesComponent {
 
     updateChallenges() {
         this.challengesService.getChallenges(this.username).subscribe(response => {
-            this.challenges = response['challenges'];
+            this.user-challenges = response['user-challenges'];
         });
     }
 

@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { ChallengesService } from 'src/app/services/challenges.service';
+import { ChallengesService } from 'src/app/services/user-challenges.service';
 
 @Component({
   selector: 'new-challenge-dialog',

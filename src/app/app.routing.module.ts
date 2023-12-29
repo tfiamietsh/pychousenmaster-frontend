@@ -4,7 +4,7 @@ import { HomeComponent } from './components/home/home.component'
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ProblemComponent } from './components/problem/problem.component';
-import { ChallengesComponent } from './components/challenges/challenges.component';
+import { UserChallengesComponent } from './components/user-challenges/user-challenges.component';
 import { ProblemsComponent } from './components/problems/problems.component';
 import { guestOnly, userOnly } from './helpers/authentication.guard';
 
@@ -28,7 +28,7 @@ const routes: Routes = [{
     component: ProblemComponent
 }, {
     path: 'challenges/:username',
-    component: ChallengesComponent
+    component: UserChallengesComponent
 }, {
     path: '**',
     redirectTo: ''

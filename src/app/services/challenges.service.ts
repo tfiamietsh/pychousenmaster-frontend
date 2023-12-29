@@ -21,8 +21,8 @@ export class ChallengesService {
     }
 
     getChallenges(username: string) {
-        const authorized = this.authService.user.username == username;
-        return this.http.get<Challenge[]>(`${environment.apiUrl}/challenges/${username}+${authorized}`);
+        const authorized = this.authService.user?.username == username;
+        return this.http.get<Challenge[]>(`${environment.apiUrl}/user-challenges/${username}+${authorized}`);
     }
 
     deleteChallenge(username: string, challengeName: string) {
