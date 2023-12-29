@@ -14,7 +14,7 @@ import { User } from 'src/app/helpers/user';
 import { Testcase } from 'src/app/helpers/testcase';
 import { Feedback } from 'src/app/helpers/feedback';
 import { SubmissionsInfo } from 'src/app/helpers/submissions-info';
-import { ChallengesService } from 'src/app/services/user-challenges.service';
+import { ChallengesService } from 'src/app/services/challenges.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NewChallengeDialogComponent } from '../new-challenge-dialog/new-challenge-dialog.component';
 
@@ -27,7 +27,7 @@ export class ProblemComponent {
     problem: Problem;
     feedback: Feedback;
     submissionsInfo: SubmissionsInfo;
-    user-challenges: any[];
+    challenges: any[];
     challengeIdx: number = -2;
     user_id: string;
     colors: string[] = ['deepskyblue', 'darkorange', 'crimson'];
@@ -208,7 +208,7 @@ export class ProblemComponent {
     }
 
     get challenge() {
-        return this.user-challenges[this.challengeIdx];
+        return this.challenges[this.challengeIdx];
     }
 
     addProblemToChallenge() {
@@ -224,7 +224,7 @@ export class ProblemComponent {
     updateChallenges() {
         this.challengesService.getProblemChallenges(this.user.username, this.problem.title)
             .subscribe(response => {
-                this.user-challenges = response['user-challenges'];
+                this.challenges = response['user-challenges'];
                 this.challengeIdx = 0;
             });
     }
