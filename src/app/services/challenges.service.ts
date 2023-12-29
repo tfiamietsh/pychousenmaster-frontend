@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environment/environment';
 import { Challenge } from '../helpers/challenge';
 import { AuthenticationService } from './authentication.service';
+import { ChallengeItem } from '../helpers/challenge-item';
 
 @Injectable({ providedIn: 'root' })
 export class ChallengesService {
@@ -20,7 +21,11 @@ export class ChallengesService {
         { withCredentials: true });
     }
 
-    getChallenges(username: string) {
+    getChallenges() {
+        return this.http.get<ChallengeItem[]>(`${environment.apiUrl}/challenges`);
+    }
+
+    getUserChallenges(username: string) {
         const authorized = this.authService.user?.username == username;
         return this.http.get<Challenge[]>(`${environment.apiUrl}/user-challenges/${username}+${authorized}`);
     }

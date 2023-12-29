@@ -23,7 +23,16 @@ export class UserChallengesComponent {
     
     ngOnInit() {
         this.username = this.route.snapshot.paramMap.get('username');
-        this.updateChallenges();
+        this.challengesService.getUserChallenges(this.username).subscribe(response => {
+            let challengeName = this.route.snapshot.queryParams['challenge'];
+            
+            this.challenges = response['challenges'];
+            this.challengeIdx = -1;
+            if (challengeName)
+                for (let i = 0; i < this.challenges.length; i++)
+                    if (this.challenges[i].name === challengeName)
+                        this.challengeIdx = i;
+        });
     }
 
     get title() {
@@ -66,7 +75,7 @@ export class UserChallengesComponent {
     }
 
     updateChallenges() {
-        this.challengesService.getChallenges(this.username).subscribe(response => {
+        this.challengesService.getUserChallenges(this.username).subscribe(response => {
             this.challenges = response['challenges'];
         });
     }

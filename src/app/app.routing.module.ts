@@ -6,6 +6,7 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ProblemComponent } from './components/problem/problem.component';
 import { UserChallengesComponent } from './components/user-challenges/user-challenges.component';
 import { ProblemsComponent } from './components/problems/problems.component';
+import { ChallengesComponent } from './components/challenges/challenges.component';
 import { guestOnly, userOnly } from './helpers/authentication.guard';
 
 const routes: Routes = [{
@@ -26,6 +27,9 @@ const routes: Routes = [{
 }, {
     path: 'problems/:title',
     component: ProblemComponent
+}, {
+    path: 'challenges',
+    component: ChallengesComponent
 }, {
     path: 'challenges/:username',
     component: UserChallengesComponent
