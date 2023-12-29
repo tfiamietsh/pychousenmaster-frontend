@@ -5,6 +5,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { ProblemComponent } from './components/problem/problem.component';
 import { ChallengesComponent } from './components/challenges/challenges.component';
+import { ProblemsComponent } from './components/problems/problems.component';
 import { guestOnly, userOnly } from './helpers/authentication.guard';
 
 const routes: Routes = [{
@@ -19,6 +20,9 @@ const routes: Routes = [{
     path: 'sign-in',
     canActivate: [guestOnly],
     component: SignInComponent
+}, {
+    path: 'problems',
+    component: ProblemsComponent
 }, {
     path: 'problems/:title',
     component: ProblemComponent

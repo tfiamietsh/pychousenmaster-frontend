@@ -1,0 +1,36 @@
+<mat-card class="mc">
+    <mat-chip-listbox multiple class="mcl">
+        <mat-chip-option *ngFor="let tag of keys" [value]="tag" (click)="processTag(tag)">{{tag}}</mat-chip-option>
+    </mat-chip-listbox>
+    <mat-card-content>
+        <table mat-table [dataSource]="items">
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef class="w80">Status</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-icon [attr.style]="iconStyle(element.status)" [matTooltip]="element.status">
+                        {{icon(element.status)}}
+                    </mat-icon>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef>Title</th>
+                <td mat-cell *matCellDef="let element">
+                    <span [routerLink]="makeLink(element.title)" class="cell">{{element.title}}</span>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="acceptance">
+                <th mat-header-cell *matHeaderCellDef class="w160">Acceptance</th>
+                <td mat-cell *matCellDef="let element">{{acceptance(element.acceptance)}}</td>
+            </ng-container>
+            <ng-container matColumnDef="difficulty">
+                <th mat-header-cell *matHeaderCellDef class="w140">Difficulty</th>
+                <td mat-cell *matCellDef="let element">
+                    <span [attr.style]="difficultyStyle(element.difficulty)">{{element.difficulty}}</span>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+</mat-card>
