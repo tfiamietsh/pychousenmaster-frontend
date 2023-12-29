@@ -27,7 +27,7 @@ export class UserChallengesComponent {
             let challengeName = this.route.snapshot.queryParams['challenge'];
             
             this.challenges = response['challenges'];
-            this.challengeIdx = -1;
+            this.challengeIdx = 0;
             if (challengeName)
                 for (let i = 0; i < this.challenges.length; i++)
                     if (this.challenges[i].name === challengeName)

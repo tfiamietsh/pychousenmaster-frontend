@@ -224,7 +224,7 @@ export class ProblemComponent {
     updateChallenges() {
         this.challengesService.getProblemChallenges(this.user.username, this.problem.title)
             .subscribe(response => {
-                this.challenges = response['user-challenges'];
+                this.challenges = response['challenges'];
                 this.challengeIdx = 0;
             });
     }

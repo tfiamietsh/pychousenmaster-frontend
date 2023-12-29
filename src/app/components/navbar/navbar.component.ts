@@ -14,7 +14,7 @@ export class NavbarComponent {
     }
 
     goToChallenges() {
-        window.location.href = `${window.location.origin}/user-challenges/${this.authService.user.username}`;
+        window.location.href = `${window.location.origin}/challenges/${this.authService.user.username}`;
     }
 
     logout() {
