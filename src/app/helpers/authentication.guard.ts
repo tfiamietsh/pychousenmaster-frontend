@@ -6,9 +6,9 @@ import { AuthenticationService } from '../services/authentication.service';
 export class AuthenticationGuard {
     constructor(private router: Router, private authService: AuthenticationService) { }
 
-    onlyUserCanActivate(_: RouterStateSnapshot) {
+    onlyUserCanActivate(snapshot: RouterStateSnapshot) {
         const user = this.authService.user;
-        if (user)
+        if (user && snapshot.root.data['roles'].includes(user.role))
             return true;
         this.router.navigate(['/sign-in']);
         return false;
