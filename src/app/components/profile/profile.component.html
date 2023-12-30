@@ -1,0 +1,59 @@
+<div class="container">
+    <mat-card class="profile-card">
+        <mat-card-header>
+            <mat-card-title>{{profile.username}}</mat-card-title>
+            <mat-card-subtitle>Solved Problems</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="text">
+            <div class="solved margin-bottom">
+                <div class="margin-bottom">
+                    <div class="margin">
+                        <span class="grey small">Easy</span>
+                        <span class="right">{{profile.solved.easy}}
+                            <span class="grey small">/{{profile.total.easy}}</span>
+                        </span>
+                    </div>
+                    <div class="fw-bar easy-pale" [matTooltip]="tooltip(profile.solved.easy, profile.total.easy)">
+                        <div class="bar easy"
+                            [attr.style]="barStyle(profile.solved.easy, profile.total.easy)"></div>
+                    </div>
+                </div>
+                <div class="margin-bottom">
+                    <div class="margin">
+                        <span class="grey small">Medium</span>
+                        <span class="right">{{profile.solved.medium}}
+                            <span class="grey small">/{{profile.total.medium}}</span>
+                        </span>
+                    </div>
+                    <div class="fw-bar medium-pale" [matTooltip]="tooltip(profile.solved.medium, profile.total.medium)">
+                        <div class="bar medium"
+                            [attr.style]="barStyle(profile.solved.medium, profile.total.medium)"></div>
+                    </div>
+                </div>
+                <div class="margin">
+                    <span class="grey small">Hard</span>
+                    <span class="right">{{profile.solved.hard}}
+                        <span class="grey small">/{{profile.total.hard}}</span>
+                    </span>
+                </div>
+                <div class="fw-bar hard-pale" [matTooltip]="tooltip(profile.solved.hard, profile.total.hard)">
+                    <div class="bar hard"
+                        [attr.style]="barStyle(profile.solved.hard, profile.total.hard)"></div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title class="margin-left">Recent AC<br></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-selection-list>
+                <mat-list-item *ngFor="let ac of profile.recentAC">
+                    <span class="link">{{ac.title}}</span>
+                    <span class="right grey">{{ac.elapsedTime}}</span>
+                </mat-list-item>
+            </mat-selection-list>
+        </mat-card-content>
+    </mat-card>
+</div>

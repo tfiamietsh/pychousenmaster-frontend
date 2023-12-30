@@ -8,6 +8,7 @@ import { UserChallengesComponent } from './components/user-challenges/user-chall
 import { ProblemsComponent } from './components/problems/problems.component';
 import { ChallengesComponent } from './components/challenges/challenges.component';
 import { guestOnly, userOnly } from './helpers/authentication.guard';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [{
     path: '',
@@ -33,6 +34,9 @@ const routes: Routes = [{
 }, {
     path: 'challenges/:username',
     component: UserChallengesComponent
+}, {
+    path: 'profile/:username',
+    component: ProfileComponent
 }, {
     path: '**',
     redirectTo: ''
