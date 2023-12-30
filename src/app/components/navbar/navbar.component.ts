@@ -13,6 +13,10 @@ export class NavbarComponent {
         return !this.authService.user;
     }
 
+    goToProfile() {
+        window.location.href = `${window.location.origin}/profile/${this.authService.user.username}`;
+    }
+
     goToChallenges() {
         window.location.href = `${window.location.origin}/challenges/${this.authService.user.username}`;
     }
