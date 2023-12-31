@@ -1,0 +1,56 @@
+<div class="dialog">
+    <h3 mat-dialog-title class="md15">Add New Problem</h3>
+    <div mat-dialog-content class="hid-scroll">
+        <mat-form-field class="w100">
+            <mat-label>Title</mat-label>
+            <input matInput id="title"/>
+        </mat-form-field>
+        <mat-form-field class="w100">
+            <mat-label>Difficulty</mat-label>
+            <mat-select [(value)]="difficulty">
+                <mat-option value="0">Easy</mat-option>
+                <mat-option value="1">Medium</mat-option>
+                <mat-option value="2">Hard</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w100">
+            <mat-label>Description</mat-label>
+            <textarea matInput id="desc" #d class="hid-scroll" (keydown)="kbEvent($event, d)"></textarea>
+        </mat-form-field>
+        <mat-form-field class="w100">
+            <mat-label>Solution</mat-label>
+            <textarea matInput id="sol" #s class="hid-scroll" (keydown)="kbEvent($event, s)"></textarea>
+        </mat-form-field>
+        <button mat-button color="primary" *ngIf="!testcases.length" class="mb20"
+            (click)="newTestcase()">Add testcase</button>
+        <div *ngIf="testcases.length">
+            <mat-tab-group #tctg mat-stretch-tabs="false" mat-align-tabs="start" fitInkBarToContent
+                    (selectedIndexChange)="tabChange($event)" animationDuration="0">
+                <mat-tab *ngFor="let tc of testcases; let i = index" label="Testcase {{i + 1}}">
+                    <mat-card>
+                        <mat-card-content>
+                            Input:
+                            <mat-form-field *ngFor="let pair of testcase.input | keyvalue; let i = index"
+                                    appearance="outline" floatLabel="always" class="w100">
+                                <mat-label>{{pair.key}} =</mat-label>
+                                <input matInput #tci [value]="pair.value"
+                                    (change)="modifyTestcaseInput(pair.key, tci.value)">
+                            </mat-form-field>
+                            Output:
+                            <mat-form-field appearance="outline" floatLabel="always" class="w100">
+                                <input matInput #tco [value]="testcase.output"
+                                    (change)="modifyTestcaseOutput(tco.value)">
+                            </mat-form-field>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-tab>
+                <mat-tab label="+"></mat-tab>
+            </mat-tab-group>
+        </div>
+        <mat-chip-listbox multiple>
+            <mat-chip-option *ngFor="let tag of tags" [value]="tag" (click)="processTag(tag)">{{tag}}</mat-chip-option>
+        </mat-chip-listbox>
+        <button mat-flat-button color="primary" class="mtr" (click)="confirm()">Confirm</button>
+        <button mat-stroked-button color="primary" class="mtr" (click)="close()">Cancel</button>
+    </div>
+</div>

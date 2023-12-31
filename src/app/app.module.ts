@@ -21,6 +21,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 import { AngularSplitModule } from 'angular-split';
 import { FlexModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
@@ -35,6 +36,7 @@ import { NewChallengeDialogComponent } from './components/new-challenge-dialog/n
 import { ProblemsComponent } from './components/problems/problems.component';
 import { ChallengesComponent } from './components/challenges/challenges.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { NewProblemDialogComponent } from './components/new-problem-dialog/new-problem-dialog.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
@@ -64,6 +66,7 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
         MatListModule,
         MatDialogModule,
         MatPaginatorModule,
+        MatSelectModule,
         AngularSplitModule,
         FlexModule,
         HighlightModule
@@ -79,7 +82,8 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
         NewChallengeDialogComponent,
         ProblemsComponent,
         ChallengesComponent,
-        ProfileComponent
+        ProfileComponent,
+        NewProblemDialogComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

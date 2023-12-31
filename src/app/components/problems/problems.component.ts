@@ -5,6 +5,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { TagsService } from 'src/app/services/tags.service';
 import { ProblemsService } from 'src/app/services/problems.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { MatDialog } from '@angular/material/dialog';
+import { NewProblemDialogComponent } from '../new-problem-dialog/new-problem-dialog.component';
+import { Roles } from 'src/app/helpers/user';
 
 @Component({
   selector: 'problems',
@@ -21,7 +24,7 @@ export class ProblemsComponent {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(private authService: AuthenticationService, private tagsService: TagsService,
-        private problemsService: ProblemsService) { }
+        private problemsService: ProblemsService, private dialog: MatDialog) { }
 
     ngOnInit() {
         let userId = this.authService.user?.id;
@@ -34,6 +37,10 @@ export class ProblemsComponent {
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
+    }
+
+    get admin() {
+        return this.authService.user.role == Roles.Admin;
     }
 
     get keys() {
@@ -83,5 +90,9 @@ export class ProblemsComponent {
 
     makeLink(title: string) {
         return `/problems/${title.toLowerCase().replace(' ', '-')}`;
+    }
+
+    openDialog() {
+        this.dialog.open(NewProblemDialogComponent).afterClosed().subscribe(_ => this.updateProblemItems());
     }
 }

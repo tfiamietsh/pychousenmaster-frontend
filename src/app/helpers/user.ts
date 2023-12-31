@@ -5,5 +5,5 @@ export interface User {
     username: string;
     access_token: string;
     refresh_token: string;
-    role: Roles;
+    role: number;
 }

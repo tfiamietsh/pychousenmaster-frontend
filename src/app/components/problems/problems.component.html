@@ -3,6 +3,9 @@
         <mat-chip-option *ngFor="let tag of keys" [value]="tag" (click)="processTag(tag)">{{tag}}</mat-chip-option>
     </mat-chip-listbox>
     <mat-card-content>
+        <button mat-stroked-button *ngIf="admin" class="new-problem" (click)="openDialog()">
+            <mat-icon>add</mat-icon>Add a new problem
+        </button>
         <table mat-table [dataSource]="items">
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef class="w80">Status</th>
