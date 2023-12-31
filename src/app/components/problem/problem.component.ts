@@ -198,8 +198,11 @@ export class ProblemComponent {
 
     submit() {
         if (this.user) {
-            this.sandboxService.submit(this.problem.title, this.user_id, this.editorElem.innerText).subscribe();
-            this.problemTabGroup.selectedIndex = 2;
+            this.sandboxService.submit(this.problem.title, this.user_id, this.editorElem.innerText)
+                .subscribe(_ => {
+                    this.updateSubmissions();
+                    this.problemTabGroup.selectedIndex = 2;
+                });
         }
     }
 
