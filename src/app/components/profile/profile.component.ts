@@ -25,4 +25,8 @@ export class ProfileComponent {
     tooltip(num: number, denom: number) {
         return `Solved ${(100 * num / denom).toFixed(1)}%`;
     }
+
+    makeLink(title: string) {
+        return `/problems/${title.toLowerCase().replace(' ', '-')}`;
+    }
 }
