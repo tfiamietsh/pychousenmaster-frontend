@@ -142,7 +142,8 @@
                                     <mat-form-field *ngFor="let pair of testcase.input | keyvalue"
                                             appearance="outline" floatLabel="always" class="tc-input">
                                         <mat-label>{{pair.key}} =</mat-label>
-                                        <input matInput #_ [value]="pair.value" (change)="modifyTestcase(pair.key, _.value)">
+                                        <input matInput #_ [value]="pair.value" (change)="modifyTestcase(pair.key, _.value)"
+                                            autocomplete="off">
                                     </mat-form-field>
                                 </div>
                             </mat-tab>
@@ -161,7 +162,7 @@
                                     </mat-card-header>
                                     <div *ngIf="outputs.length">
                                         <mat-card-content>
-                                            <mat-form-field *ngFor="let pair of expected.input | keyvalue; let i = index"
+                                            <mat-form-field *ngFor="let pair of result.input | keyvalue; let i = index"
                                                     appearance="outline" floatLabel="always" class="tc-input">
                                                 <mat-label>{{pair.key}} =</mat-label>
                                                 <input matInput [value]="pair.value" readonly>
@@ -172,7 +173,7 @@
                                         </mat-card-header>
                                         <mat-card-content>
                                             <mat-form-field appearance="outline" floatLabel="always" class="tc-input">
-                                                <input matInput [value]="output.output" readonly>
+                                                <input matInput [value]="output" readonly>
                                             </mat-form-field>
                                         </mat-card-content>
                                         <mat-card-header class="res-mch">
@@ -180,7 +181,7 @@
                                         </mat-card-header>
                                         <mat-card-content>
                                             <mat-form-field appearance="outline" floatLabel="always" class="tc-input">
-                                                <input matInput [value]="expected" readonly>
+                                                <input matInput [value]="result.output" readonly>
                                             </mat-form-field>
                                         </mat-card-content>
                                     </div>

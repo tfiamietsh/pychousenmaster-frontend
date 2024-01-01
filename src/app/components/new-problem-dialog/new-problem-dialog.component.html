@@ -3,7 +3,7 @@
     <div mat-dialog-content class="hid-scroll">
         <mat-form-field class="w100">
             <mat-label>Title</mat-label>
-            <input matInput id="title"/>
+            <input matInput id="title" autocomplete="off"/>
         </mat-form-field>
         <mat-form-field class="w100">
             <mat-label>Difficulty</mat-label>
@@ -34,12 +34,14 @@
                                     appearance="outline" floatLabel="always" class="w100">
                                 <mat-label>{{pair.key}} =</mat-label>
                                 <input matInput #tci [value]="pair.value"
-                                    (change)="modifyTestcaseInput(pair.key, tci.value)">
+                                    (change)="modifyTestcaseInput(pair.key, tci.value)"
+                                    autocomplete="off">
                             </mat-form-field>
                             Output:
                             <mat-form-field appearance="outline" floatLabel="always" class="w100">
                                 <input matInput #tco [value]="testcase.output"
-                                    (change)="modifyTestcaseOutput(tco.value)">
+                                    (change)="modifyTestcaseOutput(tco.value)"
+                                    autocomplete="off">
                             </mat-form-field>
                         </mat-card-content>
                     </mat-card>

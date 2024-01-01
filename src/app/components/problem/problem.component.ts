@@ -36,7 +36,6 @@ export class ProblemComponent {
     stateIcons: string[] = ['panorama_fish_eye', 'change_history'];
     testcaseIdx: number = 0;
     outputs: string[] = [];
-    results: boolean[] = [];
     outputIdx: number = 0;
     status: string = '';
     stColumns: string[] = ['status', 'runtime', 'memory'];
@@ -149,7 +148,7 @@ export class ProblemComponent {
         this.outputIdx = i;
     }
 
-    get expected(): Testcase {
+    get result(): Testcase {
         return this.problem.testcases[this.outputIdx];
     }
 
@@ -175,7 +174,7 @@ export class ProblemComponent {
     }
 
     caseDotStyle(i: number): string {
-        const idx = this.results[i] ? 0 : 2;
+        const idx = String(this.outputs[i]) == String(this.problem.testcases[i].output) ? 0 : 2;
         return `margin-bottom: -8px; font-size: 8px; color: ${this.colors[idx]}`;
     }
 
@@ -189,8 +188,9 @@ export class ProblemComponent {
             this.sandboxService.run(this.problem.title, this.editorElem.innerText, JSON.stringify(this.problem.testcases))
                 .subscribe(response => {
                     this.outputs = response['outputs'];
-                    this.results = response['results'];
                     this.status = response['status'];
+                    for (let i = 0; i < response['expected'].length; i++)
+                        this.problem.testcases[i].output = response['expected'][i];
                     this.testcasesTabGroup.selectedIndex = 1;
                 });
         }
