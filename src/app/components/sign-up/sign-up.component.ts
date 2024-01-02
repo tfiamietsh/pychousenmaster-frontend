@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegistrationService } from '../../services/registration.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { first } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -16,7 +17,7 @@ export class SignUpComponent {
     navbarElem: any;
     
     constructor(private formBuilder: FormBuilder, private regService: RegistrationService,
-        private router: Router) { }
+        private router: Router, private loadingService: LoadingService) { }
 
     ngOnInit() {
         this.registrationForm = this.formBuilder.group({
@@ -25,11 +26,15 @@ export class SignUpComponent {
         });
         this.navbarElem = document.getElementsByTagName('app-navbar')[0];
         this.navbarElem.style = 'display: none';
-        console.log(this.navbarElem.style);
+    }
+
+    ngAfterViewInit() {
+        this.loadingService.toggleState();
     }
 
     ngOnDestroy() {
         this.navbarElem.style = '';
+        this.loadingService.toggleState();
     }
 
     get username() {

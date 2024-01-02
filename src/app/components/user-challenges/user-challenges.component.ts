@@ -6,6 +6,7 @@ import { AuthenticationService } from "src/app/services/authentication.service";
 import { TitleService } from "src/app/services/title.service";
 import { Challenge } from "src/app/helpers/challenge";
 import { ActivatedRoute } from "@angular/router";
+import { LoadingService } from "src/app/services/loading.service";
 
 @Component({
   selector: 'user-challenges',
@@ -21,7 +22,7 @@ export class UserChallengesComponent {
 
     constructor(private dialog: MatDialog, private route: ActivatedRoute,
         private authService: AuthenticationService, private challengesService: ChallengesService,
-        private titleService: TitleService) { }
+        private titleService: TitleService, private loadingService: LoadingService) { }
     
     ngOnInit() {
         this.username = this.route.snapshot.paramMap.get('username');
@@ -36,6 +37,14 @@ export class UserChallengesComponent {
                         this.challengeIdx = i;
             this.titleService.setTitle(this.username, 'Challenges');
         });
+    }
+
+    ngAfterViewInit() {
+        this.loadingService.toggleState();
+    }
+
+    ngOnDestroy() {
+        this.loadingService.toggleState();
     }
 
     get title() {

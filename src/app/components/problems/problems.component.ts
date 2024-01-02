@@ -8,6 +8,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NewProblemDialogComponent } from '../new-problem-dialog/new-problem-dialog.component';
 import { Roles } from 'src/app/helpers/user';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'problems',
@@ -24,7 +25,8 @@ export class ProblemsComponent {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(private authService: AuthenticationService, private tagsService: TagsService,
-        private problemsService: ProblemsService, private dialog: MatDialog) { }
+        private problemsService: ProblemsService, private dialog: MatDialog,
+        private loadingService: LoadingService) { }
 
     ngOnInit() {
         let userId = this.authService.user?.id;
@@ -37,6 +39,11 @@ export class ProblemsComponent {
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
+        this.loadingService.toggleState();
+    }
+
+    ngOnDestroy() {
+        this.loadingService.toggleState();
     }
 
     get admin() {

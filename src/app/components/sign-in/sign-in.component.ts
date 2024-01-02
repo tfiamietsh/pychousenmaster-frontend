@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'sign-in',
@@ -16,7 +17,7 @@ export class SignInComponent {
     navbarElem: any;
     
     constructor(private formBuilder: FormBuilder, private authService: AuthenticationService,
-        private route: ActivatedRoute, private router: Router) { }
+        private route: ActivatedRoute, private router: Router, private loadingService: LoadingService) { }
 
     ngOnInit() {
         this.authenticationForm = this.formBuilder.group({
@@ -27,8 +28,13 @@ export class SignInComponent {
         this.navbarElem.style = 'display: none';
     }
 
+    ngAfterViewInit() {
+        this.loadingService.toggleState();
+    }
+
     ngOnDestroy() {
         this.navbarElem.style = '';
+        this.loadingService.toggleState();
     }
 
     get username() {

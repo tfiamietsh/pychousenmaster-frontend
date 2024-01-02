@@ -22,6 +22,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AngularSplitModule } from 'angular-split';
 import { FlexModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
@@ -67,6 +68,7 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
         MatDialogModule,
         MatPaginatorModule,
         MatSelectModule,
+        MatProgressBarModule,
         AngularSplitModule,
         FlexModule,
         HighlightModule
