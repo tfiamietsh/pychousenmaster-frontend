@@ -6,6 +6,7 @@ import { FeedbackService } from 'src/app/services/feedback.service';
 import { ProblemService } from 'src/app/services/problem.service';
 import { SandboxService } from 'src/app/services/sandbox.service';
 import { SubmissionsService } from 'src/app/services/submissions.service';
+import { TitleService } from 'src/app/services/title.service';
 import { Problem } from 'src/app/helpers/problem';
 import { Submission } from 'src/app/helpers/submission';
 import hljs from 'highlight.js/lib/core';
@@ -48,7 +49,7 @@ export class ProblemComponent {
         private route: ActivatedRoute, private problemService: ProblemService,
         private feedbackService: FeedbackService, private sandboxService: SandboxService,
         private submissionsService: SubmissionsService, private challengesService: ChallengesService,
-        private dialog: MatDialog) { }
+        private dialog: MatDialog, private titleService: TitleService) { }
 
     ngOnInit() {
         this.editorElem = document.getElementById('code');
@@ -64,6 +65,7 @@ export class ProblemComponent {
                 this.insertCode(problem.code);
                 this.updateFeedback();
                 this.updateSubmissions();
+                this.titleService.setTitle(problem.title,);
             });
     }
 

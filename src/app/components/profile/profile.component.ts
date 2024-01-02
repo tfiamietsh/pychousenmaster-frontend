@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Profile } from 'src/app/helpers/profile';
 import { ProfileService } from 'src/app/services/profile.service';
+import { TitleService } from 'src/app/services/title.service';
 
 @Component({
   selector: 'profile',
@@ -11,11 +12,14 @@ import { ProfileService } from 'src/app/services/profile.service';
 export class ProfileComponent {
     profile: Profile;
 
-    constructor(private route: ActivatedRoute, private profileService: ProfileService) { }
+    constructor(private route: ActivatedRoute, private profileService: ProfileService,
+        private titleService: TitleService) { }
 
     ngOnInit() {
-        this.profileService.getProfile(this.route.snapshot.paramMap.get('username'))
+        const username = this.route.snapshot.paramMap.get('username');
+        this.profileService.getProfile(username)
             .subscribe(response => this.profile = response['profile']);
+        this.titleService.setTitle(username, 'Profile');
     }
 
     barStyle(num: number, denom: number) {

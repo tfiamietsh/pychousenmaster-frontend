@@ -3,6 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { NewChallengeDialogComponent } from "../new-challenge-dialog/new-challenge-dialog.component";
 import { ChallengesService } from 'src/app/services/challenges.service';
 import { AuthenticationService } from "src/app/services/authentication.service";
+import { TitleService } from "src/app/services/title.service";
 import { Challenge } from "src/app/helpers/challenge";
 import { ActivatedRoute } from "@angular/router";
 
@@ -19,7 +20,8 @@ export class UserChallengesComponent {
     username: string;
 
     constructor(private dialog: MatDialog, private route: ActivatedRoute,
-        private authService: AuthenticationService, private challengesService: ChallengesService) { }
+        private authService: AuthenticationService, private challengesService: ChallengesService,
+        private titleService: TitleService) { }
     
     ngOnInit() {
         this.username = this.route.snapshot.paramMap.get('username');
@@ -32,6 +34,7 @@ export class UserChallengesComponent {
                 for (let i = 0; i < this.challenges.length; i++)
                     if (this.challenges[i].name === challengeName)
                         this.challengeIdx = i;
+            this.titleService.setTitle(this.username, 'Challenges');
         });
     }
 
