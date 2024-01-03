@@ -13,6 +13,11 @@ export class NavbarComponent {
         return !this.authService.user;
     }
 
+    setColor(iconElem: HTMLElement | any, spanElem: HTMLElement, colorize: boolean) {
+        iconElem.color = colorize ? 'primary' : '';
+        spanElem.setAttribute('style', `color: ${colorize ? '#E040FB' : ''}`);
+    }
+
     goToProfile() {
         window.location.href = `${window.location.origin}/profile/${this.authService.user.username}`;
     }

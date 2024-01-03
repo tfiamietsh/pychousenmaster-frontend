@@ -1,10 +1,10 @@
 <mat-toolbar>
-    <button class="r-padding" mat-button routerLink>Home</button>
-    <button class="r-padding" mat-button routerLink="/problems">Problems</button>
-    <button class="r-padding" mat-button routerLink="/challenges">Challenges</button>
+    <button class="r-padding highlight" mat-button routerLink>Home</button>
+    <button class="r-padding highlight" mat-button routerLink="/problems">Problems</button>
+    <button class="r-padding highlight" mat-button routerLink="/challenges">Challenges</button>
     <mat-form-field class="r-padding" appearance="outline" subscriptSizing="dynamic">
         <input matInput type="search" autocomplete="none" placeholder="Search or jump to..."/>
-        <button mat-icon-button matSuffix>
+        <button mat-icon-button matSuffix class="highlight">
             <mat-icon>search</mat-icon>
         </button>
     </mat-form-field>
@@ -17,22 +17,25 @@
         </button>
     </div>
     <ng-template #user>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
+        <button mat-icon-button class="highlight" [matMenuTriggerFor]="menu">
             <mat-icon>account_circle</mat-icon>
         </button>    
     </ng-template>
     <mat-menu #menu>
-        <button mat-menu-item (click)="goToProfile()">
-            <mat-icon>portrait</mat-icon>
-            <span>Profile</span>
+        <button mat-menu-item (click)="goToProfile()" (mouseover)="setColor(pi, ps, true)"
+                (mouseleave)="setColor(pi, ps, false)">
+            <mat-icon #pi>portrait</mat-icon>
+            <span #ps>Profile</span>
         </button>
-        <button mat-menu-item (click)="goToChallenges()">
-            <mat-icon>folder_special</mat-icon>
-            <span>Challenges</span>
+        <button mat-menu-item (click)="goToChallenges()" (mouseover)="setColor(ci, cs, true)"
+                (mouseleave)="setColor(ci, cs, false)">
+            <mat-icon #ci>folder_special</mat-icon>
+            <span #cs>Challenges</span>
         </button>
-        <button mat-menu-item (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon>
-            <span>Sign out</span>
+        <button mat-menu-item (click)="logout()" (mouseover)="setColor(ei, es, true)"
+                (mouseleave)="setColor(ei, es, false)">
+            <mat-icon #ei>exit_to_app</mat-icon>
+            <span #es>Sign out</span>
         </button>
     </mat-menu>
 </mat-toolbar>
