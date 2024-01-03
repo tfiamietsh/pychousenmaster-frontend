@@ -3,8 +3,8 @@
     <button class="r-padding highlight" mat-button routerLink="/problems">Problems</button>
     <button class="r-padding highlight" mat-button routerLink="/challenges">Challenges</button>
     <mat-form-field class="r-padding" appearance="outline" subscriptSizing="dynamic">
-        <input matInput type="search" autocomplete="none" placeholder="Search or jump to..."/>
-        <button mat-icon-button matSuffix class="highlight">
+        <input matInput #si type="search" autocomplete="none" placeholder="Search or jump to..."/>
+        <button mat-icon-button matSuffix class="highlight" routerLink="search" [queryParams]="{sv: si.value}">
             <mat-icon>search</mat-icon>
         </button>
     </mat-form-field>

@@ -21,8 +21,8 @@ export class ChallengesService {
         { withCredentials: true });
     }
 
-    getChallenges() {
-        return this.http.get<ChallengeItem[]>(`${environment.apiUrl}/challenges`);
+    getChallenges(pattern: string = '') {
+        return this.http.get<ChallengeItem[]>(`${environment.apiUrl}/challenges/%${pattern}%`);
     }
 
     getUserChallenges(username: string) {

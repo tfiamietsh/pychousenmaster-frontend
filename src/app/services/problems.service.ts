@@ -7,7 +7,7 @@ import { ProblemItem } from '../helpers/problem-item';
 export class ProblemsService {
     constructor(private http: HttpClient) { }
 
-    getProblems(ilike: string, mask: number, userId: string) {
-        return this.http.get<ProblemItem[]>(`${environment.apiUrl}/problems/%${ilike}%+${mask}+${userId}`);
+    getProblems(mask: number, userId: string, pattern: string = '') {
+        return this.http.get<ProblemItem[]>(`${environment.apiUrl}/problems/${mask}+${userId}+%${pattern}%`);
     }
 }

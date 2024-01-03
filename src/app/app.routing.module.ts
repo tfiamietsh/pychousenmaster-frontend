@@ -10,6 +10,7 @@ import { ChallengesComponent } from './components/challenges/challenges.componen
 import { guestOnly, userOnly } from './helpers/authentication.guard';
 import { ProfileComponent } from './components/profile/profile.component';
 import { siteName } from './services/title.service';
+import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [{
     path: '',
@@ -45,6 +46,10 @@ const routes: Routes = [{
     path: 'profile/:username',
     component: ProfileComponent,
     title: siteName
+}, {
+    path: 'search',
+    component: SearchComponent,
+    title: `Search - ${siteName}`
 }, {
     path: '**',
     redirectTo: ''

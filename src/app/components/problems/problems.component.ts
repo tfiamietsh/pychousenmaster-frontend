@@ -55,8 +55,8 @@ export class ProblemsComponent {
     }
 
     updateProblemItems() {
-        this.problemsService.getProblems('', this.mask, this.userId)
-            .subscribe(response => { this.items = response['items']; });
+        this.problemsService.getProblems(this.mask, this.userId)
+            .subscribe(response => { this.items = response['problems']; });
     }
 
     processTag(tag: string) {

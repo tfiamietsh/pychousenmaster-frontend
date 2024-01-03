@@ -38,6 +38,7 @@ import { ProblemsComponent } from './components/problems/problems.component';
 import { ChallengesComponent } from './components/challenges/challenges.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { NewProblemDialogComponent } from './components/new-problem-dialog/new-problem-dialog.component';
+import { SearchComponent } from './components/search/search.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
@@ -85,7 +86,8 @@ import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
         ProblemsComponent,
         ChallengesComponent,
         ProfileComponent,
-        NewProblemDialogComponent
+        NewProblemDialogComponent,
+        SearchComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
