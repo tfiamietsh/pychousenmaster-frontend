@@ -10,10 +10,10 @@ export class HomeComponent {
     constructor(private loadingService: LoadingService) { }
 
     ngAfterViewInit() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(false);
     }
 
     ngOnDestroy() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(true);
     }
 }

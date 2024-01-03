@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 export class LoadingService {
     private isLoading: boolean = true;
 
-    toggleState() {
-        this.isLoading = !this.isLoading;
+    setState(state: boolean) {
+        this.isLoading = state;
     }
 
     getState() {

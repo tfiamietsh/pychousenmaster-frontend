@@ -24,11 +24,11 @@ export class ProfileComponent {
     }
 
     ngAfterViewInit() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(false);
     }
 
     ngOnDestroy() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(true);
     }
 
     barStyle(num: number, denom: number) {

@@ -40,11 +40,11 @@ export class UserChallengesComponent {
     }
 
     ngAfterViewInit() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(false);
     }
 
     ngOnDestroy() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(true);
     }
 
     get title() {
@@ -60,7 +60,7 @@ export class UserChallengesComponent {
     }
 
     get authorized() {
-        return this.authService.user.username == this.username;
+        return this.authService.user ? this.authService.user.username == this.username : false;
     }
 
     toggle() {

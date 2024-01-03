@@ -29,12 +29,12 @@ export class SignInComponent {
     }
 
     ngAfterViewInit() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(false);
     }
 
     ngOnDestroy() {
         this.navbarElem.style = '';
-        this.loadingService.toggleState();
+        this.loadingService.setState(true);
     }
 
     get username() {

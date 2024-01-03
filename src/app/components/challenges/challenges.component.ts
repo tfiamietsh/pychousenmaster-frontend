@@ -19,11 +19,11 @@ export class ChallengesComponent {
     }
 
     ngAfterViewInit() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(false);
     }
 
     ngOnDestroy() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(true);
     }
 
     makeLinkToChallenge(username: string) {

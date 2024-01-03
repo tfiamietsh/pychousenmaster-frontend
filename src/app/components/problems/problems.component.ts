@@ -39,15 +39,15 @@ export class ProblemsComponent {
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
-        this.loadingService.toggleState();
+        this.loadingService.setState(false);
     }
 
     ngOnDestroy() {
-        this.loadingService.toggleState();
+        this.loadingService.setState(true);
     }
 
     get admin() {
-        return this.authService.user.role == Roles.Admin;
+        return this.authService.user ? this.authService.user.role == Roles.Admin : false;
     }
 
     get keys() {
