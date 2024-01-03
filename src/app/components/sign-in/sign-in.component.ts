@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
   selector: 'sign-in',
@@ -14,18 +15,17 @@ export class SignInComponent {
     authenticationForm!: FormGroup;
     error: string = '';
     isPasswordHidden: boolean = true;
-    navbarElem: any;
     
     constructor(private formBuilder: FormBuilder, private authService: AuthenticationService,
-        private route: ActivatedRoute, private router: Router, private loadingService: LoadingService) { }
+        private route: ActivatedRoute, private router: Router, private loadingService: LoadingService,
+        private navbarService: NavbarService) { }
 
     ngOnInit() {
         this.authenticationForm = this.formBuilder.group({
             username: [''],
             password: ['']
         });
-        this.navbarElem = document.getElementsByTagName('app-navbar')[0];
-        this.navbarElem.style = 'display: none';
+        this.navbarService.setNavbarVisibility(false);
     }
 
     ngAfterViewInit() {
@@ -33,8 +33,8 @@ export class SignInComponent {
     }
 
     ngOnDestroy() {
-        this.navbarElem.style = '';
         this.loadingService.setState(true);
+        this.navbarService.setNavbarVisibility(true);
     }
 
     get username() {

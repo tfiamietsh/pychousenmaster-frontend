@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
+import { NavbarService } from '../../services/navbar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,7 +8,15 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrl: './navbar.component.sass'
 })
 export class NavbarComponent {
-    constructor(private authService: AuthenticationService) { }
+    constructor(private authService: AuthenticationService, private navbarService: NavbarService) { }
+
+    get navbar() {
+        return this.navbarService.getNavbarVisibility();
+    }
+
+    get searchBar() {
+        return this.navbarService.getSearchBarVisibility();
+    }
 
     get guest() {
         return !this.authService.user;

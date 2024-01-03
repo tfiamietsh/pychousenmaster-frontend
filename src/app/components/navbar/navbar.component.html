@@ -1,14 +1,14 @@
-<mat-toolbar>
+<mat-toolbar *ngIf="navbar">
     <button class="r-padding highlight" mat-button routerLink>Home</button>
     <button class="r-padding highlight" mat-button routerLink="/problems">Problems</button>
     <button class="r-padding highlight" mat-button routerLink="/challenges">Challenges</button>
-    <mat-form-field class="r-padding" appearance="outline" subscriptSizing="dynamic">
+    <mat-form-field *ngIf="searchBar" class="r-padding" appearance="outline" subscriptSizing="dynamic">
         <input matInput #si type="search" autocomplete="none" placeholder="Search or jump to..."/>
         <button mat-icon-button matSuffix class="highlight" routerLink="search" [queryParams]="{sv: si.value}">
             <mat-icon>search</mat-icon>
         </button>
     </mat-form-field>
-    <div *ngIf="guest;else user">
+    <div *ngIf="guest;else user" style="margin-left: auto; margin-right: 0">
         <button mat-stroked-button class="r-padding" color="primary" routerLink="/sign-in">
             <span>Sign in</span>
         </button>

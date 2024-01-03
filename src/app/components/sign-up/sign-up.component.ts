@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegistrationService } from '../../services/registration.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { NavbarService } from 'src/app/services/navbar.service';
 import { first } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -14,18 +15,17 @@ export class SignUpComponent {
     registrationForm!: FormGroup;
     error: string = '';
     isPasswordHidden: boolean = true;
-    navbarElem: any;
     
     constructor(private formBuilder: FormBuilder, private regService: RegistrationService,
-        private router: Router, private loadingService: LoadingService) { }
+        private router: Router, private loadingService: LoadingService,
+        private navbarService: NavbarService) { }
 
     ngOnInit() {
         this.registrationForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
-        this.navbarElem = document.getElementsByTagName('app-navbar')[0];
-        this.navbarElem.style = 'display: none';
+        this.navbarService.setNavbarVisibility(false);
     }
 
     ngAfterViewInit() {
@@ -33,8 +33,8 @@ export class SignUpComponent {
     }
 
     ngOnDestroy() {
-        this.navbarElem.style = '';
         this.loadingService.setState(true);
+        this.navbarService.setNavbarVisibility(true);
     }
 
     get username() {

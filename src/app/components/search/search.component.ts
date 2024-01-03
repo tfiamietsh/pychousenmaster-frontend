@@ -12,6 +12,7 @@ import { UserItem } from 'src/app/helpers/user-item';
 import { TagsService } from 'src/app/services/tags.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
   selector: 'search',
@@ -37,7 +38,7 @@ export class SearchComponent {
     constructor(private loadingService: LoadingService, private authService: AuthenticationService,
         private tagsService: TagsService, private problemsService: ProblemsService,
         private challengesService: ChallengesService, private usersService: UsersService,
-        private route: ActivatedRoute) { }
+        private route: ActivatedRoute, private navbarService: NavbarService) { }
 
     ngOnInit() {
         let userId = this.authService.user?.id;
@@ -50,6 +51,7 @@ export class SearchComponent {
             this.tagIdxMap = response['tagIdxMap'];
             this.search();
         });
+        this.navbarService.setSearchBarVisibility(false);
     }
 
     ngAfterViewInit() {
@@ -58,6 +60,7 @@ export class SearchComponent {
 
     ngOnDestroy() {
         this.loadingService.setState(true);
+        this.navbarService.setSearchBarVisibility(true);
     }
 
     get keys() {
