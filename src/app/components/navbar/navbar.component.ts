@@ -18,6 +18,10 @@ export class NavbarComponent {
         return this.navbarService.getSearchBarVisibility();
     }
 
+    get class() {
+        return this.searchBar ? '' : 'l-margin';
+    }
+
     get guest() {
         return !this.authService.user;
     }
